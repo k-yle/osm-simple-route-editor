@@ -1,41 +1,49 @@
+import { useEffect, useState, useMemo } from "react";
 import whichPolygon from "which-polygon";
-import type { BBox, ELI, GeoJson } from "../types";
+import type { BBox } from "osm-api";
+import { ELI, ELIGeoJson } from "../types";
 
-const isValid = (x: ELI) =>
-  (x.type === "tms" ||
-    (x.type === "wms" && x.available_projections?.includes("EPSG:3857"))) &&
-  !x.url.includes("{apikey}");
+const isValid = (layer: ELI) =>
+  (layer.type === "tms" ||
+    (layer.type === "wms" &&
+      layer.available_projections?.includes("EPSG:3857"))) &&
+  !layer.name.includes(" Style)") &&
+  !layer.url.includes("{apikey}");
 
-/** if true, we only return worldwide layers */
-type ELIQuery = (bbox: BBox | true) => ELI[];
+/** @param mapExtent `GLOBAL_ONLY` means we only return worldwide layers */
+export const useAvailableImagery = (mapExtent: BBox | "GLOBAL_ONLY") => {
+  const [geojson, setGeoJson] = useState<ELIGeoJson>();
 
-async function getELIQuerier(): Promise<ELIQuery> {
-  const geojson: GeoJson<ELI> = await fetch(
-    "https://osmlab.github.io/editor-layer-index/imagery.geojson"
-  ).then((r) => r.json());
+  useEffect(() => {
+    fetch("https://osmlab.github.io/editor-layer-index/imagery.geojson")
+      .then((r) => r.json())
+      .then(setGeoJson)
+      .catch(console.error);
+  }, []);
 
-  const world = geojson.features
-    .filter((x) => !x.geometry)
-    .map((x) => x.properties)
-    .filter(isValid);
+  const availableLayers = useMemo(() => {
+    if (!geojson) return [];
 
-  const nonWorld: GeoJson<ELI> = {
-    features: geojson.features.filter((x) => x.geometry),
-    type: "FeatureCollection",
-  };
+    const world = geojson.features
+      .filter((x) => !x.geometry)
+      .map((x) => x.properties)
+      .filter(isValid);
 
-  const query = whichPolygon<ELI>(nonWorld);
+    if (mapExtent === "GLOBAL_ONLY") return world;
 
-  // the returned function is called on every query
-  return (bbox) => {
-    if (bbox === true) return world;
+    const nonWorld: ELIGeoJson = {
+      features: geojson.features.filter((x) => x.geometry),
+      type: "FeatureCollection",
+    };
 
-    const local = query.bbox(bbox);
-    return [...local.filter(isValid), ...world];
-  };
-}
+    const query = whichPolygon<ELI>(nonWorld);
 
-/**
- * A cached querier function to get local imagery from ELI
- */
-export const eliQueryPromise = getELIQuerier().catch(console.error);
+    const local = query.bbox(mapExtent as never); // TODO: fix types
+    return [
+      ...local.filter(isValid).sort((a, b) => +!a.best - +!b.best),
+      ...world,
+    ];
+  }, [geojson, mapExtent]);
+
+  return availableLayers;
+};

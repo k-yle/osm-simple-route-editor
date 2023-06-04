@@ -1,0 +1,12 @@
+.windows {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.dragHandle {
+  width: 4px;
+  height: 100%;
+  background-color: #ccc;
+  cursor: ew-resize;
+}

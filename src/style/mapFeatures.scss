@@ -1,0 +1,64 @@
+$width: 8;
+/* 3/4 width for motorway links & service roads */
+$linkWidth: $width * 0.75;
+/* 1/2 width for driveways/parking isles */
+$serviceWidth: $width * 0.5;
+/** 1/4 width for paths */
+$pathWidth: $width * 0.25;
+
+.highway {
+  stroke-width: $width;
+  stroke: #999;
+
+  /* colours */
+  &.highway__motorway,
+  &.highway__motorway_link {
+    stroke: #c42681;
+  }
+  &.highway__trunk,
+  &.highway__trunk_link {
+    stroke: #d13126;
+  }
+  &.highway__primary,
+  &.highway__primary_link {
+    stroke: #ef9715;
+  }
+  &.highway__secondary,
+  &.highway__secondary_link {
+    stroke: #f2f120;
+  }
+  &.highway__busway,
+  &.highway__tertiary,
+  &.highway__tertiary_link {
+    stroke: #fef8b4;
+  }
+  &.highway__residential,
+  &.highway__unclassified,
+  &.highway__service {
+    stroke: #fff;
+  }
+  &.highway__living_street {
+    stroke: #ccc;
+  }
+
+  /* widths */
+  &.highway[class$="_link"],
+  &.highway__service {
+    stroke-width: $linkWidth;
+  }
+  &.highway__service.service {
+    stroke-width: $serviceWidth;
+  }
+
+  &.highway__path,
+  &.highway__footway,
+  &.highway__cycleway,
+  &.highway__bridleway,
+  &.highway__steps,
+  &.highway__track,
+  &.highway__corridor {
+    stroke-width: $pathWidth;
+    stroke: #978888;
+    stroke-dasharray: 5 5;
+  }
+}

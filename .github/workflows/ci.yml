@@ -1,0 +1,34 @@
+name: build
+
+on: [push]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: 📶 Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: 📶 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 📶 Install
+        run: yarn
+
+      - name: 💚 Lint
+        run: yarn lint
+
+      - name: 🧪 Test
+        run: yarn test
+
+      - name: 🚧 Build
+        run: yarn build
