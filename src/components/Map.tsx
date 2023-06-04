@@ -1,7 +1,7 @@
 import { MapContainer, ScaleControl } from "react-leaflet";
 import { useHomeLocation } from "../hooks";
-import { HooksLayer, ImageryLayer, OsmDataLayer } from "./mapLayers";
-import classes from "./Map.module.css";
+import { HooksLayer, ImageryLayer, MAX_ZOOM, OsmDataLayer } from "./mapLayers";
+import classes from "./Map.module.scss";
 
 export const Map: React.FC = () => {
   const home = useHomeLocation();
@@ -16,6 +16,7 @@ export const Map: React.FC = () => {
       zoomSnap={0}
       className={classes.map}
       zoomDelta={0.2}
+      maxZoom={MAX_ZOOM}
     >
       <ScaleControl position="bottomleft" />
       <ImageryLayer />

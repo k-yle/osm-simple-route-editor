@@ -1,5 +1,8 @@
 # Simple OSM Route Editor
 
+[![Test](https://github.com/k-yle/osm-simple-route-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/k-yle/osm-simple-route-editor/actions/workflows/ci.yml)
+![Lines of code](https://img.shields.io/tokei/lines/github/k-yle/osm-simple-route-editor?color=green)
+
 📍 A web editor that lets you quickly modify OpenStreetMap route relations.
 
 <details>

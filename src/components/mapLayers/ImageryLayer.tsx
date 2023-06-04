@@ -4,6 +4,8 @@ import { LayersControl, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import { useAvailableImagery, useKeyboardShortcut } from "../../hooks";
 import { attributionToHtml, convertTileUrl, toBBox } from "../../util";
 
+export const MAX_ZOOM = 23;
+
 export const ImageryLayer: React.FC = () => {
   const map = useMap();
   const allLayers = useRef<L.TileLayer[]>([]);
@@ -59,6 +61,9 @@ export const ImageryLayer: React.FC = () => {
             ref={(l) => {
               if (l) allLayers.current[i] = l;
             }}
+            maxNativeZoom={imagery.max_zoom}
+            minNativeZoom={imagery.min_zoom}
+            maxZoom={MAX_ZOOM}
           />
         </LayersControl.BaseLayer>
       ))}

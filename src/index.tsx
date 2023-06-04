@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { AuthGateway } from "./context";
+import { AuthGateway, EditorWrapper } from "./context";
 import { App } from "./App";
 
 import "./style";
@@ -8,7 +8,9 @@ import "./style";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthGateway>
-      <App />
+      <EditorWrapper>
+        <App />
+      </EditorWrapper>
     </AuthGateway>
   </StrictMode>
 );

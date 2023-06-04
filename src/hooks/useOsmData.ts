@@ -1,6 +1,6 @@
 /** fetches nearby map data from the OSM API and caches it */
 import { useEffect, useRef, useState } from "react";
-import { BBox, getMapData } from "osm-api";
+import { BBox, OsmFeature, getMapData } from "osm-api";
 import { OsmCache, WayWithGeom } from "../types";
 import { createRoadsFromRawOsmData, bboxToTiles, isWithinBBox } from "../util";
 
@@ -13,12 +13,15 @@ const CHUNK_ZOOM = 15;
 /** don't query data until the user is zoomed in further than this */
 export const MIN_ZOOM = 16;
 
-const cache: OsmCache = { node: {}, way: {}, relation: {} };
+export const osmCache: OsmCache = { node: {}, way: {}, relation: {} };
 // this is derived from the cache object
 let constructedRoads: WayWithGeom[] = [];
 
-const updateDerivedRoads = () => {
-  constructedRoads = createRoadsFromRawOsmData("ROAD", cache);
+export const storeNewFeatures = (newFeatures: OsmFeature[]) => {
+  for (const f of newFeatures) {
+    osmCache[f.type][f.id] = f;
+  }
+  constructedRoads = createRoadsFromRawOsmData("ROAD", osmCache);
 };
 
 const alreadyQueried: Record<string, true> = {};
@@ -27,6 +30,7 @@ export const useOsmData = (mapExtent: BBox, zoom: number) => {
   const mapExtentRef = useRef<BBox>(mapExtent);
 
   const [visibleFeatures, setVisibleFeatures] = useState<WayWithGeom[]>([]);
+  const [onDataFetched, setOnDataFetched] = useState(0);
 
   useEffect(() => {
     mapExtentRef.current = mapExtent;
@@ -45,12 +49,10 @@ export const useOsmData = (mapExtent: BBox, zoom: number) => {
         // fetch async map data from OSM
         getMapData(tile.bbox)
           .then((features) => {
-            const filteredFeatures = features;
-            for (const f of filteredFeatures) {
-              cache[f.type][f.id] = f;
-            }
+            storeNewFeatures(features);
 
-            updateDerivedRoads();
+            // reactively inform anyone interested that new data has arrived
+            setOnDataFetched((c) => c + 1);
           })
           .catch(console.error);
       }
@@ -63,7 +65,8 @@ export const useOsmData = (mapExtent: BBox, zoom: number) => {
         road.points.some((point) => isWithinBBox(point, mapExtent))
       )
     );
-  }, [mapExtent]);
+    // onDataFetched is deliberately a redundant dependency
+  }, [mapExtent, onDataFetched]);
 
   return visibleFeatures;
 };

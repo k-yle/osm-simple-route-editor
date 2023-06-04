@@ -1,5 +1,5 @@
 import { useState } from "react";
-import classes from "./Windows.module.css";
+import classes from "./Windows.module.scss";
 
 export const Windows: React.FC<{
   children: React.ReactNode;

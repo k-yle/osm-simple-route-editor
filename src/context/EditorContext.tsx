@@ -1,23 +1,76 @@
-import { useState, createContext, useMemo, PropsWithChildren } from "react";
-import type { OsmRelation } from "osm-api";
+import {
+  useState,
+  createContext,
+  useMemo,
+  useCallback,
+  PropsWithChildren,
+} from "react";
+import { OsmRelation, getFeature } from "osm-api";
 import { Tags } from "../types";
+import { SelectRelationPage } from "../pages";
+import { storeNewFeatures } from "../hooks";
+
+export const NEW_ROUTE: OsmRelation = {
+  type: "relation",
+  id: -1,
+  changeset: -1,
+  members: [],
+  timestamp: new Date().toISOString(),
+  uid: -1,
+  user: "",
+  version: 0,
+  tags: {},
+};
 
 type IEditorContext = {
-  currentRoute: OsmRelation | undefined;
-  setCurrentRoute: SetState<OsmRelation | undefined>;
+  route: OsmRelation;
+  routeMembers: number[];
+  setRouteMembers: SetState<number[]>;
   changesetTags: Tags;
   setChangesetTags: SetState<Tags>;
 };
 export const EditorContext = createContext({} as IEditorContext);
 
 export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
-  const [currentRoute, setCurrentRoute] = useState<OsmRelation>();
+  const [route, setRoute] = useState<OsmRelation>();
+  const [routeMembers, setRouteMembers] = useState<number[]>([]);
   const [changesetTags, setChangesetTags] = useState<Tags>({});
 
+  const onSelectRouteId = useCallback(async (newRouteId: number) => {
+    // user is creating a new relation
+    if (newRouteId < 0) {
+      setRoute({ ...NEW_ROUTE, id: newRouteId });
+      return;
+    }
+
+    const features = await getFeature("relation", newRouteId, true);
+    const newRoute = features.find(
+      (r): r is OsmRelation => r.type === "relation" && r.id === newRouteId
+    )!;
+
+    // non-reactive updates first
+    storeNewFeatures(features);
+
+    setRoute(newRoute);
+    setRouteMembers(
+      newRoute.members.filter((f) => f.type === "way").map((f) => f.ref)
+    );
+  }, []);
+
   const ctx = useMemo(
-    () => ({ currentRoute, setCurrentRoute, changesetTags, setChangesetTags }),
-    [currentRoute, setCurrentRoute, changesetTags, setChangesetTags]
+    () => ({
+      route: route!, // the non-null assertion is a lie between this line and the if statement below
+      routeMembers,
+      setRouteMembers,
+      changesetTags,
+      setChangesetTags,
+    }),
+    [route, routeMembers, setRouteMembers, changesetTags, setChangesetTags]
   );
+
+  if (typeof route === "undefined") {
+    return <SelectRelationPage onSelect={onSelectRouteId} />;
+  }
 
   return (
     <EditorContext.Provider value={ctx}>{children}</EditorContext.Provider>
