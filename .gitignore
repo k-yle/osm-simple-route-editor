@@ -2,6 +2,7 @@
 node_modules
 dist*
 *.local
+todo.md
 .DS_Store
 
 # we use yarn

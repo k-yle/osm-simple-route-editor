@@ -1,11 +1,14 @@
 import { useContext, useMemo } from "react";
-import { OsmChange, OsmRelation, uploadChangeset } from "osm-api";
+import { createOsmChangeXml, uploadChangeset } from "osm-api";
 import { AuthContext, EditorContext } from "../context";
-import { osmCache } from "../hooks";
+import { useCreateOsmChange } from "../hooks";
+import { osmCache } from "../context/cache";
+import { downloadFile } from "../util";
 
 export const Sidebar: React.FC = () => {
   const { user, logout } = useContext(AuthContext);
-  const { route, routeMembers, changesetTags } = useContext(EditorContext);
+  const { route, routeMembers } = useContext(EditorContext);
+  const createOsmChange = useCreateOsmChange();
 
   const originalMembers = useMemo(
     () =>
@@ -25,37 +28,7 @@ export const Sidebar: React.FC = () => {
 
   async function onClickSave() {
     try {
-      const osmChange: OsmChange = { create: [], modify: [], delete: [] };
-
-      const newRelation: OsmRelation = {
-        ...route,
-        members: [
-          // unchanged non-way members
-          ...route.members.filter((m) => m.type !== "way"),
-          // final list of ways
-          ...routeMembers.map((ref): OsmRelation["members"][number] => ({
-            type: "way",
-            ref,
-            role: "",
-          })),
-        ],
-      };
-      if (isCreatingNew) {
-        osmChange.create.push(newRelation);
-      } else {
-        osmChange.modify.push(newRelation);
-      }
-
-      const finalCSTags = {
-        ...changesetTags,
-        created_by: "Simple Route Editor 1.0.0",
-        comment: isCreatingNew
-          ? "Create route relation"
-          : `Update route relation “${route.tags!.ref || ""} ${
-              route.tags!.name || ""
-            }”`,
-      };
-      console.log({ osmChange, finalCSTags });
+      const { osmChange, finalCSTags } = createOsmChange();
 
       // eslint-disable-next-line no-alert, no-restricted-globals
       if (!confirm("u sure u want to save?")) return;
@@ -68,6 +41,17 @@ export const Sidebar: React.FC = () => {
       // eslint-disable-next-line no-alert
       alert("failed to save soz");
     }
+  }
+
+  function onClickDownloadOsmChange() {
+    const { osmChange, finalCSTags } = createOsmChange();
+
+    const xmlString = createOsmChangeXml(-1, osmChange, finalCSTags);
+
+    const xmlBlob = new Blob([xmlString], { type: "application/xml" });
+
+    const fileName = `r${route.id}.osmChange`;
+    downloadFile(fileName, xmlBlob);
   }
 
   return (
@@ -93,6 +77,9 @@ export const Sidebar: React.FC = () => {
       <hr />
       <button type="button" onClick={onClickSave}>
         Save
+      </button>
+      <button type="button" onClick={onClickDownloadOsmChange}>
+        Download osmChange file
       </button>
       <hr />
       {uniqMembers.length} members:

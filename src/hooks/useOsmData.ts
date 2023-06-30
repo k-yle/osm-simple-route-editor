@@ -1,8 +1,9 @@
 /** fetches nearby map data from the OSM API and caches it */
 import { useEffect, useRef, useState } from "react";
-import { BBox, OsmFeature, getMapData } from "osm-api";
-import { OsmCache, WayWithGeom } from "../types";
-import { createRoadsFromRawOsmData, bboxToTiles, isWithinBBox } from "../util";
+import { BBox, getMapData } from "osm-api";
+import { WayWithGeom } from "../types";
+import { bboxToTiles, isWithinBBox } from "../util";
+import { getConstructedRoads, storeNewFeatures } from "../context/cache";
 
 // We fetch data one tile at a time, which makes it easier
 // to track which tiles we've fetched. To reduce API requests,
@@ -12,17 +13,6 @@ const CHUNK_ZOOM = 15;
 
 /** don't query data until the user is zoomed in further than this */
 export const MIN_ZOOM = 16;
-
-export const osmCache: OsmCache = { node: {}, way: {}, relation: {} };
-// this is derived from the cache object
-let constructedRoads: WayWithGeom[] = [];
-
-export const storeNewFeatures = (newFeatures: OsmFeature[]) => {
-  for (const f of newFeatures) {
-    osmCache[f.type][f.id] = f;
-  }
-  constructedRoads = createRoadsFromRawOsmData("ROAD", osmCache);
-};
 
 const alreadyQueried: Record<string, true> = {};
 
@@ -48,12 +38,10 @@ export const useOsmData = (mapExtent: BBox, zoom: number) => {
 
         // fetch async map data from OSM
         getMapData(tile.bbox)
-          .then((features) => {
-            storeNewFeatures(features);
+          .then(storeNewFeatures)
+          // reactively inform anyone interested that new data has arrived
+          .then(() => setOnDataFetched((c) => c + 1))
 
-            // reactively inform anyone interested that new data has arrived
-            setOnDataFetched((c) => c + 1);
-          })
           .catch(console.error);
       }
     }
@@ -61,7 +49,7 @@ export const useOsmData = (mapExtent: BBox, zoom: number) => {
 
   useEffect(() => {
     setVisibleFeatures(
-      constructedRoads.filter((road) =>
+      getConstructedRoads().filter((road) =>
         road.points.some((point) => isWithinBBox(point, mapExtent))
       )
     );
