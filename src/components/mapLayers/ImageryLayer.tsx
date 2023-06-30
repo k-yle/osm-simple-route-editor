@@ -12,12 +12,12 @@ export const ImageryLayer: React.FC = () => {
   const mostRecentLayers = useRef<string[]>([]);
 
   useMapEvents({
-    baselayerchange: (e) => {
+    baselayerchange: (event) => {
       if (mostRecentLayers.current.length > 3) {
         mostRecentLayers.current.length = 3;
       }
-      if (e.layer instanceof L.TileLayer) {
-        mostRecentLayers.current.unshift(e.layer.options.id!);
+      if (event.layer instanceof L.TileLayer) {
+        mostRecentLayers.current.unshift(event.layer.options.id!);
       }
     },
   });
@@ -45,9 +45,9 @@ export const ImageryLayer: React.FC = () => {
 
   return (
     <LayersControl position="topright">
-      {imageryList.map((imagery, i) => (
+      {imageryList.map((imagery, index) => (
         <LayersControl.BaseLayer
-          checked={i === 0}
+          checked={index === 0}
           name={
             (imagery.best || imagery.id === "MAPNIK" ? "⭐ " : "") +
             imagery.name
@@ -59,7 +59,7 @@ export const ImageryLayer: React.FC = () => {
             attribution={attributionToHtml(imagery.attribution)}
             url={convertTileUrl(imagery.url)}
             ref={(l) => {
-              if (l) allLayers.current[i] = l;
+              if (l) allLayers.current[index] = l;
             }}
             maxNativeZoom={imagery.max_zoom}
             minNativeZoom={imagery.min_zoom}

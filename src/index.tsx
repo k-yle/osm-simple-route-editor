@@ -5,7 +5,7 @@ import { App } from "./App";
 
 import "./style";
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.querySelector("#root")!).render(
   <StrictMode>
     <AuthGateway>
       <EditorWrapper>

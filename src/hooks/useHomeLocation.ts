@@ -16,7 +16,7 @@ export type LatLngZoom = {
 const getLocationFromLocalStorage = (): LatLngZoom | undefined => {
   try {
     const [z, lat, lng] = localStorage.mapExtent.split("/").map(Number);
-    if (Number.isNaN(z + lat + lng)) throw new Error();
+    if (Number.isNaN(z + lat + lng)) throw new Error(".");
     return { z, lat, lng };
   } catch {
     return undefined;

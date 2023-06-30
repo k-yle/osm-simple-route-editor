@@ -12,7 +12,7 @@ function matchesTagQuery(tagQuery: TagQuery, tags: Tags) {
       const values =
         typeof valueOrStar === "string" ? [valueOrStar] : valueOrStar;
 
-      return values.some((v) => tags[k] === v);
+      return tags[k] && values.includes(tags[k]!);
     });
   });
 }

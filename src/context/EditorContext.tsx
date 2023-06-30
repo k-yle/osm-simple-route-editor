@@ -57,7 +57,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
     );
   }, []);
 
-  const ctx = useMemo(
+  const context = useMemo(
     () => ({
       route: route!, // the non-null assertion is a lie between this line and the if statement below
       routeMembers,
@@ -68,11 +68,11 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
     [route, routeMembers, setRouteMembers, changesetTags, setChangesetTags]
   );
 
-  if (typeof route === "undefined") {
+  if (!route) {
     return <SelectRelationPage onSelect={onSelectRouteId} />;
   }
 
   return (
-    <EditorContext.Provider value={ctx}>{children}</EditorContext.Provider>
+    <EditorContext.Provider value={context}>{children}</EditorContext.Provider>
   );
 };

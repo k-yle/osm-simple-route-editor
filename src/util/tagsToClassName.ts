@@ -7,7 +7,7 @@ const KEYS_USED_BY_STYLING = new Set([
   "service",
 ]);
 
-const stripChars = (str: string) => str.replace(/[^A-Z_-]/gi, "");
+const stripChars = (str: string) => str.replaceAll(/[^_a-z-]/gi, "");
 
 export const tagsToClassName = (tags: Tags) =>
   Object.entries(tags)

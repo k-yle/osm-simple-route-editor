@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
+import type { BBox } from "osm-api";
 import { bboxToTiles, coordToTile } from "../tiles";
-import { BBox } from "osm-api";
 
 describe("coordToTile", () => {
   it("coordToTile", () => {
