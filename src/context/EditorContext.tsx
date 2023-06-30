@@ -8,7 +8,8 @@ import {
 import { OsmRelation, getFeature } from "osm-api";
 import { Tags } from "../types";
 import { SelectRelationPage } from "../pages";
-import { storeNewFeatures } from "../hooks";
+import { version } from "../../package.json";
+import { storeNewFeatures } from "./cache";
 
 export const NEW_ROUTE: OsmRelation = {
   type: "relation",
@@ -20,6 +21,12 @@ export const NEW_ROUTE: OsmRelation = {
   user: "",
   version: 0,
   tags: {},
+};
+
+const DEFAULT_CHANGESET_TAGS = {
+  created_by: `Simple Route Editor ${version}`,
+  host: window.location.origin,
+  locale: navigator.languages[0],
 };
 
 type IEditorContext = {
@@ -34,7 +41,9 @@ export const EditorContext = createContext({} as IEditorContext);
 export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const [route, setRoute] = useState<OsmRelation>();
   const [routeMembers, setRouteMembers] = useState<number[]>([]);
-  const [changesetTags, setChangesetTags] = useState<Tags>({});
+  const [changesetTags, setChangesetTags] = useState<Tags>(
+    DEFAULT_CHANGESET_TAGS
+  );
 
   const onSelectRouteId = useCallback(async (newRouteId: number) => {
     // user is creating a new relation

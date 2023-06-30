@@ -56,6 +56,7 @@ export const ImageryLayer: React.FC = () => {
         >
           <TileLayer
             id={imagery.id}
+            name={imagery.name}
             attribution={attributionToHtml(imagery.attribution)}
             url={convertTileUrl(imagery.url)}
             ref={(l) => {
