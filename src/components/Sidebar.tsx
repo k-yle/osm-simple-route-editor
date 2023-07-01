@@ -1,14 +1,15 @@
 import { useContext, useMemo } from "react";
 import { createOsmChangeXml, uploadChangeset } from "osm-api";
 import { AuthContext, EditorContext } from "../context";
-import { useCreateOsmChange } from "../hooks";
+import { useCreateOsmChange, useOnSelectWay } from "../hooks";
 import { osmCache } from "../context/cache";
-import { downloadFile } from "../util";
+import { downloadFile, osmGetName } from "../util";
 
 export const Sidebar: React.FC = () => {
   const { user, logout } = useContext(AuthContext);
-  const { route, routeMembers } = useContext(EditorContext);
+  const { route, routeMembers, routeMemberHistory } = useContext(EditorContext);
   const createOsmChange = useCreateOsmChange();
+  const onSelectWay = useOnSelectWay();
 
   const originalMembers = useMemo(
     () =>
@@ -56,7 +57,7 @@ export const Sidebar: React.FC = () => {
 
   return (
     <>
-      Hi {user.display_name}. Version {VERSION}{" "}
+      Hi {user.display_name}.
       <button type="button" onClick={logout}>
         Logout
       </button>
@@ -75,6 +76,21 @@ export const Sidebar: React.FC = () => {
         </a>
       )}
       <hr />
+      <button
+        type="button"
+        onClick={() => routeMemberHistory.undo()}
+        disabled={!routeMemberHistory.canUndo}
+      >
+        Undo
+      </button>
+      <button
+        type="button"
+        onClick={routeMemberHistory.redo}
+        disabled={!routeMemberHistory.canRedo}
+      >
+        Redo
+      </button>
+      <hr />
       <button type="button" onClick={onClickSave}>
         Save
       </button>
@@ -85,20 +101,32 @@ export const Sidebar: React.FC = () => {
       {uniqMembers.length} members:
       <ul>
         {uniqMembers.map((id) => {
+          const way = osmCache.way[id];
           const isNew = !originalMembers.has(id);
           return (
             <li key={id} style={{ color: isNew ? "green" : "inherit" }}>
-              {osmCache.way[id]?.tags?.name || id}
-              {/* TODO: undo button */}
+              {way ? osmGetName(way.tags) : "Unknown"}
+              &nbsp;
+              {isNew && (
+                <button type="button" onClick={() => onSelectWay(way)}>
+                  Undo
+                </button>
+              )}
             </li>
           );
         })}
-        {removed.map((id) => (
-          <li key={id} style={{ color: "red" }}>
-            {osmCache.way[id]?.tags?.name || id}
-            {/* TODO: undo button */}
-          </li>
-        ))}
+        {removed.map((id) => {
+          const way = osmCache.way[id];
+          return (
+            <li key={id} style={{ color: "red" }}>
+              {osmGetName(way?.tags)}
+              &nbsp;
+              <button type="button" onClick={() => onSelectWay(way)}>
+                Undo
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </>
   );

@@ -2,6 +2,7 @@ import { useCallback, useContext } from "react";
 import type { OsmWay } from "osm-api";
 import { EditorContext } from "../context";
 import { useGetCurrentImagery } from "./useGetCurrentImagery";
+import { osmGetName } from "../util";
 
 export const useOnSelectWay = () => {
   const { changesetTags, setChangesetTags, setRouteMembers } =
@@ -15,10 +16,18 @@ export const useOnSelectWay = () => {
         const selected = c.includes(way.id);
 
         // unselect this segment
-        if (selected) return c.filter((id) => id !== way.id);
+        if (selected) {
+          return {
+            annotation: `Deselected ${osmGetName(way.tags)}`,
+            value: c.filter((id) => id !== way.id),
+          };
+        }
 
         // select this segment
-        return [...c, way.id];
+        return {
+          annotation: `Selected ${osmGetName(way.tags)}`,
+          value: [...c, way.id],
+        };
       });
 
       // then store the imagery used for this operation
