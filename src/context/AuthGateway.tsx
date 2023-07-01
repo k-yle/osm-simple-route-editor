@@ -36,15 +36,16 @@ export const AuthGateway: React.FC<PropsWithChildren> = ({ children }) => {
       setLoading(true);
       await login({
         clientId:
+          // the clientId is not confidential, it's alright to define it here
           window.location.hostname === "127.0.0.1"
             ? "oPbyNuXQIEh8ZI3zbjVWVmVyIaNB2guU6uLP2gQ3sfs"
-            : "ZkRBVnOoBeMgwSajgG7E2bhgP5bR61knGYxsh9KKaHc",
+            : "rGcXPyMLc20ZFKw7ZybqZCZLhhydXKK5p027POLT2AY",
         mode: "popup",
         redirectUrl:
           window.location.hostname === "127.0.0.1"
             ? "http://127.0.0.1:3000/land.html"
-            : "https://osm-nz.github.io/land.html",
-        scopes: ["read_prefs", "write_api", "write_notes"],
+            : "https://osm-simple-route-editor.kyle.kiwi/land.html",
+        scopes: ["read_prefs", "write_api"],
       });
 
       setLoggedIn(true);

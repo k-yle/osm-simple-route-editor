@@ -5,6 +5,8 @@
 
 📍 A web editor that lets you quickly modify OpenStreetMap route relations.
 
+Visit [osm-simple-route-editor.kyle.kiwi](https://osm-simple-route-editor.kyle.kiwi) to start editing!
+
 <details>
 <summary>Info for Software Developers (click to expand)</summary>
 
