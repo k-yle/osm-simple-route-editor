@@ -37,6 +37,7 @@ type IEditorContext = {
   setChangesetTags: SetState<Tags>;
 };
 export const EditorContext = createContext({} as IEditorContext);
+EditorContext.displayName = "EditorContext";
 
 export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const [route, setRoute] = useState<OsmRelation>();

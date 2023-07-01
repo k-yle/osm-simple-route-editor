@@ -2,9 +2,14 @@ import type { Tags } from "../../../../types";
 import { assertIsNever } from "../../../../util";
 import type { CriteriaFunction } from "../rankAdjoiningRoad";
 
-/** treatrs `alternating`/`reversible` as `false` */
+/** treats `alternating`/`reversible` as `false` */
+// TODO: somehow import https://github.com/openstreetmap/iD/blob/b397767b/modules/osm/tags.js#L126-L171
 const isOneway = (tags: Tags | undefined) =>
-  tags?.oneway === "yes" || tags?.oneway === "-1";
+  tags?.oneway === "yes" ||
+  tags?.oneway === "-1" ||
+  tags?.["railway:preferred_direction"] === "forward" ||
+  tags?.junction === "roundabout" ||
+  tags?.junction === "circular";
 
 type Direction = "forwards" | "backwards" | "both";
 
@@ -14,6 +19,7 @@ const invertDirection: Record<Direction, Direction> = {
   both: "both",
 };
 
+// eslint-disable-next-line consistent-return -- eslint doesn't understand TS's never
 export const sameDirection: CriteriaFunction = (sourceRoad, candidateRoad) => {
   /** if true, then we're following this road forwards */
   const sharedNodeIsLastNodeOfSource = candidateRoad.nodes.includes(
