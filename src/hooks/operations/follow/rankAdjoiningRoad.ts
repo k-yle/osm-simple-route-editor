@@ -1,5 +1,10 @@
 import { WayWithGeom } from "../../../types";
-import { sameDirection, sameRoadHierarchy, sameRoadName } from "./criteria";
+import {
+  exitRoundaboutEarly,
+  sameDirection,
+  sameRoadHierarchy,
+  sameRoadName,
+} from "./criteria";
 
 /**
  * @param sourceRoad - the road that we're continuing **from**
@@ -21,6 +26,7 @@ export const rankAdjoiningRoad: CriteriaFunction = (
     sameRoadName,
     sameRoadHierarchy,
     sameDirection,
+    exitRoundaboutEarly,
   ];
 
   // because we can't have a number is JS with more than 15 digits
@@ -34,6 +40,8 @@ export const rankAdjoiningRoad: CriteriaFunction = (
     const criteriaResult = criteriaFunction(sourceRoad, candidateRoad);
 
     // the first rule has the highest amount of decimal places.
+    // so the output will be a 5 digit number: 1ABCD where A is the
+    // result from rule A, B is the result of rule 2, etc.
     score += criteriaResult * 10 ** (criteria.length - 1 - index);
   }
 

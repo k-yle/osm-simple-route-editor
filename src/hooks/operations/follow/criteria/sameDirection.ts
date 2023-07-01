@@ -9,7 +9,6 @@ const invertDirection: Record<Direction, Direction> = {
   both: "both",
 };
 
-// eslint-disable-next-line consistent-return -- eslint doesn't understand TS's never
 export const sameDirection: CriteriaFunction = (sourceRoad, candidateRoad) => {
   /** if true, then we're following this road forwards */
   const sharedNodeIsLastNodeOfSource = candidateRoad.nodes.includes(
@@ -35,7 +34,7 @@ export const sameDirection: CriteriaFunction = (sourceRoad, candidateRoad) => {
       : "backwards"
     : "both";
 
-  if (sourceRoad.tags?.oneway === "-1") {
+  if (candidateRoad.tags?.oneway === "-1") {
     targetRoadDirection = invertDirection[targetRoadDirection];
   }
 
@@ -57,7 +56,7 @@ export const sameDirection: CriteriaFunction = (sourceRoad, candidateRoad) => {
       return 5;
     }
 
-    // possibly the end of the dual carriageway section
+    // possibly the start of the dual carriageway section
     case "both --> forwards": {
       return 3;
     }

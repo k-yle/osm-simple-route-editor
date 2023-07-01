@@ -1,11 +1,14 @@
-import { useCallback } from "react";
-import { useMap } from "react-leaflet";
+import { useContext, useCallback } from "react";
+import { MapContext } from "../context";
 
 export const useGetCurrentImagery = () => {
-  const map = useMap();
+  const { map } = useContext(MapContext);
 
   const getCurrentImagery = useCallback(() => {
     let match: L.TileLayerOptions | undefined;
+
+    // map hasn't initialised yet
+    if (!map) return undefined;
 
     map.eachLayer((layer) => {
       if (layer instanceof L.TileLayer) {

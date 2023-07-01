@@ -40,6 +40,9 @@
       "jest": {
         "version": 28
       }
+    },
+    "rules": {
+      "consistent-return": 0
     }
   }
 }

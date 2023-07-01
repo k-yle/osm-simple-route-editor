@@ -4,12 +4,15 @@ import { WayWithGeom } from "../../../../types";
 
 describe("rankAdjoiningRoad", () => {
   it.each`
-    sourceTags                            | candidateTags                         | rank
-    ${{}}                                 | ${{}}                                 | ${1115}
-    ${{ name: "a" }}                      | ${{ name: "a" }}                      | ${1115}
-    ${{ name: "a" }}                      | ${{ name: "b" }}                      | ${1015}
-    ${{ name: "a", highway: "motorway" }} | ${{ name: "b", highway: "trunk" }}    | ${1005}
-    ${{ name: "a", highway: "motorway" }} | ${{ name: "b", highway: "motorway" }} | ${1015}
+    sourceTags                               | candidateTags                            | rank
+    ${{}}                                    | ${{}}                                    | ${11150}
+    ${{ name: "a" }}                         | ${{ name: "a" }}                         | ${11150}
+    ${{ name: "a" }}                         | ${{ name: "b" }}                         | ${10150}
+    ${{ name: "a", highway: "motorway" }}    | ${{ name: "b", highway: "trunk" }}       | ${10050}
+    ${{ name: "a", highway: "motorway" }}    | ${{ name: "b", highway: "motorway" }}    | ${10150}
+    ${{ name: "a", junction: "roundabout" }} | ${{ name: "b", junction: "roundabout" }} | ${10151}
+    ${{ name: "a" }}                         | ${{ name: "b", junction: "roundabout" }} | ${10130}
+    ${{ name: "a", junction: "roundabout" }} | ${{ name: "b" }}                         | ${10172}
   `(
     "can rank two adjoining roads based on tags %# --> $rank",
     ({ sourceTags, candidateTags, rank }) => {
