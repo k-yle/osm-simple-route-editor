@@ -10,6 +10,7 @@ import { Tags } from "../types";
 import { SelectRelationPage } from "../pages";
 import { version } from "../../package.json";
 import { storeNewFeatures } from "./cache";
+import { locale } from "../i18n";
 import {
   EditorHistory,
   SetEditorState,
@@ -32,7 +33,7 @@ export const NEW_ROUTE: OsmRelation = {
 const DEFAULT_CHANGESET_TAGS = {
   created_by: `Simple Route Editor ${version}`,
   host: window.location.origin,
-  locale: navigator.languages[0],
+  locale,
 };
 
 type IEditorContext = {
