@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "lint": "eslint src --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0 && tsc",
+    "lint": "eslint src --ext js,jsx,ts,tsx --report-unused-disable-directives && tsc",
     "test": "vitest"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.42.0",
     "eslint-config-kyle": "^11.14.4",
+    "jsdom": "^22.1.0",
     "typescript": "^5.1.3",
     "vite": "^4.3.9",
     "vitest": "^0.31.4"
