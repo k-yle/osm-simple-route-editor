@@ -14,7 +14,7 @@ import {
   EditorHistory,
   SetEditorState,
   useEditorHistory,
-} from "../hooks/useEditorHistory";
+} from "../hooks/generic";
 
 export const NEW_ROUTE: OsmRelation = {
   type: "relation",

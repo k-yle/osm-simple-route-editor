@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import whichPolygon from "which-polygon";
 import type { BBox } from "osm-api";
-import { ELI, ELIGeoJson } from "../types";
+import type { ELI, ELIGeoJson } from "../../types";
 
 const isValid = (layer: ELI) =>
   (layer.type === "tms" ||
