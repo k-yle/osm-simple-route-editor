@@ -14,6 +14,7 @@ import {
   EditorHistory,
   SetEditorState,
   useEditorHistory,
+  usePreventTabClosure,
 } from "../hooks/generic";
 
 export const NEW_ROUTE: OsmRelation = {
@@ -53,6 +54,8 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const [changesetTags, setChangesetTags] = useState<Tags>(
     DEFAULT_CHANGESET_TAGS
   );
+
+  usePreventTabClosure(routeMemberHistory.anyChanges);
 
   const onSelectRouteId = useCallback(
     async (newRouteId: number) => {
