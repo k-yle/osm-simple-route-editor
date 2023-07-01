@@ -12,7 +12,7 @@ Visit [osm-simple-route-editor.kyle.kiwi](https://osm-simple-route-editor.kyle.k
 
 **Setup:**
 
-- Install VSCode
+- Install VSCode including [all the recommended extensions](.vscode/extensions.json)
 - Install NodeJS v18 or newer
 - Install yarn
 - Clone the repo

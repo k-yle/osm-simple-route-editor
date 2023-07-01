@@ -9,6 +9,7 @@ export const Map: React.FC = () => {
   const { setMap } = useContext(MapContext);
   const home = useHomeLocation();
 
+  // TODO: i18n or better UX
   if (!home) return <>Loading…</>;
 
   return (

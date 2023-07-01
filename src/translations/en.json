@@ -1,1 +1,16 @@
-{}
+{
+  "LoginErrorPage.msg": "Failed to login!",
+  "LoginWaitingForPopupPage.msg": "Login in progress... (use the popup window)",
+  "generic.logout": "Logout",
+  "generic.try-again": "Try Again",
+  "operation.deselect-way": "Deselected {name}",
+  "operation.select-way": "Selected {name}",
+  "osmGetName.from-to": "{from} to {to}",
+  "osmGetName.housenumber-street": "{housenumber} {street}",
+  "osmGetName.network-ref": "{network} {ref}",
+  "osmGetName.network-ref-from-to": "{network} {ref} ({from} to {to})",
+  "osmGetName.network-ref-to": "{network} {ref} (to {to})",
+  "osmGetName.no-name": "No Name",
+  "useCreateOsmChange.changeset-comment.create": "Create route relation",
+  "useCreateOsmChange.changeset-comment.edit": "Update route relation “{name}”"
+}

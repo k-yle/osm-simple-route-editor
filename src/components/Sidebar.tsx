@@ -5,6 +5,8 @@ import { useCreateOsmChange, useOnSelectWay } from "../hooks";
 import { osmCache } from "../context/cache";
 import { downloadFile, osmGetName } from "../util";
 
+// TODO: i18n
+
 export const Sidebar: React.FC = () => {
   const { user, logout } = useContext(AuthContext);
   const { route, routeMembers, routeMemberHistory } = useContext(EditorContext);

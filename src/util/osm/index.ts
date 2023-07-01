@@ -1,2 +1,2 @@
 export * from "./isOneway";
-export * from "./getName";
+export * from "./osmGetName";

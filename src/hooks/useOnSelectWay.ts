@@ -3,6 +3,7 @@ import type { OsmWay } from "osm-api";
 import { EditorContext } from "../context";
 import { useGetCurrentImagery } from "./useGetCurrentImagery";
 import { osmGetName } from "../util";
+import { t } from "../i18n";
 
 export const useOnSelectWay = () => {
   const { changesetTags, setChangesetTags, setRouteMembers } =
@@ -18,14 +19,16 @@ export const useOnSelectWay = () => {
         // unselect this segment
         if (selected) {
           return {
-            annotation: `Deselected ${osmGetName(way.tags)}`,
+            annotation: t("operation.deselect-way", {
+              name: osmGetName(way.tags),
+            }),
             value: c.filter((id) => id !== way.id),
           };
         }
 
         // select this segment
         return {
-          annotation: `Selected ${osmGetName(way.tags)}`,
+          annotation: t("operation.select-way", { name: osmGetName(way.tags) }),
           value: [...c, way.id],
         };
       });

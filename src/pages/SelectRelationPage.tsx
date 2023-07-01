@@ -1,3 +1,4 @@
+// TODO: i18n
 export const SelectRelationPage: React.FC<{
   onSelect(relationId: number): void;
 }> = ({ onSelect }) => {

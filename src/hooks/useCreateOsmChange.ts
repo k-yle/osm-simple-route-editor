@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import type { OsmChange, OsmRelation } from "osm-api";
 import { EditorContext } from "../context";
+import { osmGetName } from "../util";
+import { t } from "../i18n";
 
 export const useCreateOsmChange = () => {
   const { route, routeMembers, changesetTags } = useContext(EditorContext);
@@ -32,10 +34,10 @@ export const useCreateOsmChange = () => {
     const finalCSTags = {
       ...changesetTags,
       comment: isCreatingNew
-        ? "Create route relation"
-        : `Update route relation “${route.tags!.ref || ""} ${
-            route.tags!.name || ""
-          }”`,
+        ? t("useCreateOsmChange.changeset-comment.create")
+        : t("useCreateOsmChange.changeset-comment.edit", {
+            name: osmGetName(route.tags),
+          }),
     };
 
     return { osmChange, finalCSTags };

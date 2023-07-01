@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 export const LoginErrorPage: React.FC<{
   error: Error;
   onClickLogin(): void;
@@ -5,15 +7,15 @@ export const LoginErrorPage: React.FC<{
 }> = ({ error, onClickLogin, onClickLogout }) => {
   return (
     <>
-      Failed to login!
+      {t("LoginErrorPage.msg")}
       <br />
       {`${error}`}
       <br />
       <button type="button" onClick={onClickLogin}>
-        Try Again
+        {t("generic.try-again")}
       </button>
       <button type="button" onClick={onClickLogout}>
-        Logout
+        {t("generic.logout")}
       </button>
     </>
   );

@@ -1,3 +1,4 @@
+// TODO: i18n
 export const LoginPage: React.FC<{ onClickLogin(): void }> = ({
   onClickLogin,
 }) => {

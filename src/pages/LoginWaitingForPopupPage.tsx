@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 export const LoginWaitingForPopupPage: React.FC = () => {
-  return <>Login in progress... (use the popup window)</>;
+  return <>{t("LoginWaitingForPopupPage.msg")}</>;
 };
