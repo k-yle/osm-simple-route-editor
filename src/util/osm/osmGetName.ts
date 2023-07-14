@@ -5,7 +5,9 @@ import { Tags } from "../../types";
  * the equivilant of iD's `utilDisplayName`: given a set of tags,
  * finds the best name for an object.
  */
-export function osmGetName(tags: Tags | undefined): string {
+export function osmGetName(
+  tags: Tags | undefined
+): string & { isNoName?: boolean } {
   if (!tags) return t("osmGetName.no-name");
 
   const straightforwardName =
@@ -38,5 +40,5 @@ export function osmGetName(tags: Tags | undefined): string {
   if (tags.local_ref) return tags.local_ref;
   if (tags.from && tags.to) return t("osmGetName.from-to", tags);
 
-  return t("osmGetName.no-name");
+  return Object.assign(t("osmGetName.no-name"), { isNoName: true });
 }

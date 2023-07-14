@@ -3,6 +3,8 @@
   "LoginWaitingForPopupPage.msg": "Login in progress... (use the popup window)",
   "generic.logout": "Logout",
   "generic.try-again": "Try Again",
+  "operation.change-node-role": "Changed role of point “{name}” to “{newRole}”",
+  "operation.deselect-node": "Deselected point “{name}”",
   "operation.deselect-way": "Deselected {name}",
   "operation.select-way": "Selected {name}",
   "osmGetName.from-to": "{from} to {to}",

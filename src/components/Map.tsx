@@ -1,7 +1,13 @@
 import { useContext } from "react";
 import { MapContainer, ScaleControl } from "react-leaflet";
 import { useHomeLocation } from "../hooks";
-import { HooksLayer, ImageryLayer, MAX_ZOOM, OsmDataLayer } from "./mapLayers";
+import {
+  HooksLayer,
+  ImageryLayer,
+  MAX_ZOOM,
+  OsmDataLayer,
+  SelectedNodesLayer,
+} from "./mapLayers";
 import classes from "./Map.module.scss";
 import { MapContext } from "../context";
 
@@ -26,6 +32,7 @@ export const Map: React.FC = () => {
       <ScaleControl position="bottomleft" />
       <ImageryLayer />
       <OsmDataLayer />
+      <SelectedNodesLayer />
       <HooksLayer />
     </MapContainer>
   );

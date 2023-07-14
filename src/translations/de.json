@@ -3,6 +3,8 @@
   "LoginWaitingForPopupPage.msg": "Anmeldung läuft... (verwenden Sie das Popup-Fenster)",
   "generic.logout": "Ausloggen",
   "generic.try-again": "Nochmal Versuchen",
+  "operation.change-node-role": "Rolle des Punkts „{name}“ in „{newRole}“ geändert",
+  "operation.deselect-node": "Punkt „{name}“ abgewählt",
   "operation.deselect-way": "{name} abgewählt",
   "operation.select-way": "{Name} ausgewählt",
   "osmGetName.from-to": "{from} nach {to}",
