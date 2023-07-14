@@ -4,6 +4,7 @@
   display: flex;
   & > aside {
     overflow-y: scroll;
+    flex-grow: 1;
   }
 }
 

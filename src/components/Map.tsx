@@ -10,9 +10,11 @@ import {
 } from "./mapLayers";
 import classes from "./Map.module.scss";
 import { MapContext } from "../context";
+import { WindowContext } from "./Windows";
 
 export const Map: React.FC = () => {
   const { setMap } = useContext(MapContext);
+  const containerSize = useContext(WindowContext);
   const home = useHomeLocation();
 
   // TODO: i18n or better UX
@@ -20,6 +22,7 @@ export const Map: React.FC = () => {
 
   return (
     <MapContainer
+      key={containerSize}
       center={[home.lat, home.lng]}
       zoom={home.z}
       scrollWheelZoom
