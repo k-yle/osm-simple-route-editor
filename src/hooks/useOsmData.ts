@@ -9,10 +9,10 @@ import { getConstructedRoads, storeNewFeatures } from "../context/cache";
 // to track which tiles we've fetched. To reduce API requests,
 // the chunk zoom should be small, but not too small since the OSM API
 // can only return 5,000 items per request.
-const CHUNK_ZOOM = 15;
+const CHUNK_ZOOM = 16; // 16 is the same as what iD does
 
 /** don't query data until the user is zoomed in further than this */
-export const MIN_ZOOM = 16;
+export const MIN_ZOOM = 17;
 
 const alreadyQueried: Record<string, true> = {};
 
