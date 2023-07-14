@@ -1,4 +1,5 @@
 import { useReducer, useCallback, Dispatch, useMemo } from "react";
+import { realCtrlKey, useKeyboardShortcut } from "./useKeyboardShortcut";
 
 enum ActionType {
   Undo,
@@ -159,6 +160,9 @@ export const useEditorHistory = <T>(
     () => dispatch({ type: ActionType.ClearHistory }),
     []
   );
+
+  useKeyboardShortcut("z", undo, realCtrlKey);
+  useKeyboardShortcut("y", redo, realCtrlKey);
 
   const set = useCallback(
     (newValueOrFunction: NewValue<T>) =>
