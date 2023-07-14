@@ -14,7 +14,7 @@ export const useOnSelectWay = () => {
     (way: OsmWay) => {
       // first update the actual route data
       setRouteMembers((c) => {
-        const selected = c.includes(way.id);
+        const selected = c.some((member) => member.ref === way.id);
 
         // unselect this segment
         if (selected) {
@@ -22,14 +22,14 @@ export const useOnSelectWay = () => {
             annotation: t("operation.deselect-way", {
               name: osmGetName(way.tags),
             }),
-            value: c.filter((id) => id !== way.id),
+            value: c.filter((member) => member.ref !== way.id),
           };
         }
 
         // select this segment
         return {
           annotation: t("operation.select-way", { name: osmGetName(way.tags) }),
-          value: [...c, way.id],
+          value: [...c, { ref: way.id, type: "way", role: "" }],
         };
       });
 

@@ -3,6 +3,7 @@ import { EditorContext } from "../../../context";
 import { getConstructedRoads } from "../../../context/cache";
 import { rankAdjoiningRoad } from "./rankAdjoiningRoad";
 import { useOnSelectWay } from "../../useOnSelectWay";
+import { getWayIdsFromMembers } from "../../../util/members";
 
 export const useFollowOperation = () => {
   const { routeMembers } = useContext(EditorContext);
@@ -12,8 +13,11 @@ export const useFollowOperation = () => {
   const followOperation = useCallback(() => {
     const roads = getConstructedRoads();
 
+    const alreadySelected = getWayIdsFromMembers(routeMembers);
+    const alreadySelectedSet = new Set(alreadySelected);
+
     // most recently selected roads
-    const [mostRecentId, secondMostRecentId] = routeMembers.slice(-2).reverse();
+    const [mostRecentId, secondMostRecentId] = alreadySelected.slice(-2);
 
     const mostRecent = roads.find((w) => w.id === mostRecentId);
     const secondMostRecent = roads.find((w) => w.id === secondMostRecentId);
@@ -56,7 +60,7 @@ export const useFollowOperation = () => {
     const adjoiningRoads = roads.filter(
       (w) =>
         w.id !== mostRecentId && // ignore the current road
-        !routeMembers.includes(w.id) && // ignore roads that are already selected
+        !alreadySelectedSet.has(w.id) && // ignore roads that are already selected
         (w.nodes[0] === leadingNodeId || w.nodes.at(-1) === leadingNodeId)
     );
 

@@ -33,12 +33,15 @@ export const OsmDataLayer: React.FC = () => {
   return (
     <>
       {visibleData.map((way) => {
-        const selected = routeMembers.includes(way.id);
+        const selected = routeMembers.some((member) => member.ref === way.id);
 
         if (zoom < 15 && !selected) return null;
 
         return (
           <Polyline
+            // `selected` is part of the key because we need to force
+            // react-leaflet to apply the new classname, which it only
+            // does when the component is created
             key={`${way.id}${selected}`}
             className={clsx(tagsToClassName(way.tags!), selected && "selected")}
             positions={way.points}

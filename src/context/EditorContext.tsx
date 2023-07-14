@@ -6,7 +6,7 @@ import {
   PropsWithChildren,
 } from "react";
 import { OsmRelation, getFeature } from "osm-api";
-import { Tags } from "../types";
+import { RelationMember, Tags } from "../types";
 import { SelectRelationPage } from "../pages";
 import { version } from "../../package.json";
 import { storeNewFeatures } from "./cache";
@@ -38,8 +38,8 @@ const DEFAULT_CHANGESET_TAGS = {
 
 type IEditorContext = {
   route: OsmRelation;
-  routeMembers: number[];
-  setRouteMembers: SetEditorState<number[]>;
+  routeMembers: RelationMember[];
+  setRouteMembers: SetEditorState<RelationMember[]>;
   routeMemberHistory: EditorHistory;
   changesetTags: Tags;
   setChangesetTags: SetState<Tags>;
@@ -52,7 +52,7 @@ EditorContext.displayName = "EditorContext";
 export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const [route, setRoute] = useState<OsmRelation>();
   const [routeMembers, setRouteMembers, routeMemberHistory] = useEditorHistory<
-    number[]
+    RelationMember[]
   >([]);
   const [changesetTags, setChangesetTags] = useState<Tags>(
     DEFAULT_CHANGESET_TAGS
@@ -86,9 +86,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
       setRoute(newRoute);
       setRouteMembers({
         annotation: "",
-        value: newRoute.members
-          .filter((f) => f.type === "way")
-          .map((f) => f.ref),
+        value: newRoute.members,
       });
     },
     [setRouteMembers]

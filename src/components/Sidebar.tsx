@@ -4,6 +4,7 @@ import { AuthContext, EditorContext } from "../context";
 import { useCreateOsmChange, useOnSelectWay } from "../hooks";
 import { osmCache } from "../context/cache";
 import { downloadFile, osmGetName } from "../util";
+import { getWayIdsFromMembers } from "../util/members";
 
 // TODO: i18n
 
@@ -15,18 +16,20 @@ export const Sidebar: React.FC = () => {
   const onSelectWay = useOnSelectWay();
 
   const originalMembers = useMemo(
-    () =>
-      new Set(route.members.filter((f) => f.type === "way").map((f) => f.ref)),
+    () => new Set(getWayIdsFromMembers(route.members)),
     [route]
   );
 
-  const { removed, uniqMembers } = useMemo(
-    () => ({
-      removed: [...originalMembers].filter((id) => !routeMembers.includes(id)),
-      uniqMembers: [...new Set(routeMembers)],
-    }),
-    [routeMembers, originalMembers]
-  );
+  // this only considers way members
+  const { removed, uniqMembers } = useMemo(() => {
+    const allWayIDs = getWayIdsFromMembers(routeMembers);
+    const allWayIDsSet = new Set(allWayIDs);
+
+    return {
+      removed: [...originalMembers].filter((id) => !allWayIDsSet.has(id)),
+      uniqMembers: allWayIDs,
+    };
+  }, [routeMembers, originalMembers]);
 
   const isCreatingNew = route.id < 0;
 

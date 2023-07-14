@@ -1,4 +1,9 @@
-import { OsmFeatureType, OsmWay, UtilFeatureForType } from "osm-api";
+import {
+  OsmFeatureType,
+  OsmRelation,
+  OsmWay,
+  UtilFeatureForType,
+} from "osm-api";
 
 export type Vec2 = [lat: number, lng: number];
 export type Vec3 = [x: number, y: number, z: number];
@@ -14,3 +19,5 @@ export type OsmCache = {
 // export type OsmCache = Record<`${OsmFeatureType}/${number}`, OsmFeature>;
 
 export type WayWithGeom = OsmWay & { points: Vec2[] };
+
+export type RelationMember = OsmRelation["members"][number];

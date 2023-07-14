@@ -14,16 +14,7 @@ export const useCreateOsmChange = () => {
 
     const newRelation: OsmRelation = {
       ...route,
-      members: [
-        // unchanged non-way members
-        ...route.members.filter((m) => m.type !== "way"),
-        // final list of ways
-        ...routeMembers.map((ref): OsmRelation["members"][number] => ({
-          type: "way",
-          ref,
-          role: "",
-        })),
-      ],
+      members: routeMembers,
     };
     if (isCreatingNew) {
       osmChange.create.push(newRelation);
