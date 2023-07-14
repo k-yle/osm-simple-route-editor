@@ -43,6 +43,8 @@ type IEditorContext = {
   routeMemberHistory: EditorHistory;
   changesetTags: Tags;
   setChangesetTags: SetState<Tags>;
+
+  resetEditor(): void;
 };
 export const EditorContext = createContext({} as IEditorContext);
 EditorContext.displayName = "EditorContext";
@@ -57,6 +59,13 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   usePreventTabClosure(routeMemberHistory.anyChanges);
+
+  const resetEditor = useCallback(() => {
+    setRouteMembers({ annotation: "", value: [] });
+    routeMemberHistory.clearHistory();
+    setChangesetTags(DEFAULT_CHANGESET_TAGS);
+    setRoute(undefined);
+  }, [setRouteMembers, routeMemberHistory]);
 
   const onSelectRouteId = useCallback(
     async (newRouteId: number) => {
@@ -93,6 +102,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
       routeMemberHistory,
       changesetTags,
       setChangesetTags,
+      resetEditor,
     }),
     [
       route,
@@ -101,6 +111,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
       routeMemberHistory,
       changesetTags,
       setChangesetTags,
+      resetEditor,
     ]
   );
 

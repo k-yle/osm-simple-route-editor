@@ -9,7 +9,8 @@ import { downloadFile, osmGetName } from "../util";
 
 export const Sidebar: React.FC = () => {
   const { user, logout } = useContext(AuthContext);
-  const { route, routeMembers, routeMemberHistory } = useContext(EditorContext);
+  const { route, routeMembers, routeMemberHistory, resetEditor } =
+    useContext(EditorContext);
   const createOsmChange = useCreateOsmChange();
   const onSelectWay = useOnSelectWay();
 
@@ -38,7 +39,8 @@ export const Sidebar: React.FC = () => {
 
       const csId = await uploadChangeset(finalCSTags, osmChange);
       window.open(`https://osm.org/changeset/${csId}`, "_blank");
-      window.location.reload();
+
+      resetEditor();
     } catch (ex) {
       console.error(ex);
       // eslint-disable-next-line no-alert
@@ -82,6 +84,7 @@ export const Sidebar: React.FC = () => {
         type="button"
         onClick={() => routeMemberHistory.undo()}
         disabled={!routeMemberHistory.canUndo}
+        title={routeMemberHistory.canUndo || undefined}
       >
         Undo
       </button>
@@ -89,14 +92,23 @@ export const Sidebar: React.FC = () => {
         type="button"
         onClick={routeMemberHistory.redo}
         disabled={!routeMemberHistory.canRedo}
+        title={routeMemberHistory.canRedo || undefined}
       >
         Redo
       </button>
       <hr />
-      <button type="button" onClick={onClickSave}>
+      <button
+        type="button"
+        onClick={onClickSave}
+        disabled={!routeMemberHistory.anyChanges}
+      >
         Save
       </button>
-      <button type="button" onClick={onClickDownloadOsmChange}>
+      <button
+        type="button"
+        onClick={onClickDownloadOsmChange}
+        disabled={!routeMemberHistory.anyChanges}
+      >
         Download osmChange file
       </button>
       <hr />
