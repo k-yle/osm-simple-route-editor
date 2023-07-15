@@ -16,6 +16,7 @@
   "Navbar.section-settings": "Einstellungen",
   "Navbar.to-dark-mode": "Dunkelmodus aktivieren",
   "Navbar.to-light-mode": "Lichtmodus aktivieren",
+  "RelationMemberList.member-list-header": "{n} Mitglieder",
   "SelectRelationPage.card-title": "Anfangen",
   "SelectRelationPage.existing": "Vorhandene Route bearbeiten",
   "SelectRelationPage.new": "Neue Route erstellen",

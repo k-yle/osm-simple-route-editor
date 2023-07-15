@@ -34,7 +34,9 @@ export const RelationMemberList: React.FC = () => {
 
   return (
     <Container m={2}>
-      <Title order={3}>{uniqMembers.length} members</Title>
+      <Title order={3}>
+        {t("RelationMemberList.member-list-header", { n: uniqMembers.length })}
+      </Title>
       <List
         mt={8}
         spacing="xs"

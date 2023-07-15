@@ -16,6 +16,7 @@
   "Navbar.section-settings": "Settings",
   "Navbar.to-dark-mode": "Switch to Dark Mode",
   "Navbar.to-light-mode": "Switch to Light Mode",
+  "RelationMemberList.member-list-header": "{n} members",
   "SelectRelationPage.card-title": "Start Editing",
   "SelectRelationPage.existing": "Edit Existing Route",
   "SelectRelationPage.new": "Create New Route",
