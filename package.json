@@ -21,6 +21,7 @@
     "which-polygon": "^2.2.1"
   },
   "devDependencies": {
+    "@small-tech/vite-plugin-sri": "^1.0.1",
     "@types/geojson": "^7946.0.10",
     "@types/leaflet": "^1.9.3",
     "@types/node": "^20.2.5",
