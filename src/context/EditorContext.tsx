@@ -27,7 +27,7 @@ export const NEW_ROUTE: OsmRelation = {
   uid: -1,
   user: "",
   version: 0,
-  tags: {},
+  tags: { type: "route" },
 };
 
 const DEFAULT_CHANGESET_TAGS = {

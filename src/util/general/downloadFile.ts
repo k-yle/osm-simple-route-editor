@@ -7,4 +7,5 @@ export function downloadFile(fileName: string, blob: Blob) {
   document.body.append(a);
   a.click();
   URL.revokeObjectURL(url);
+  a.remove();
 }

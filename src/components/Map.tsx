@@ -11,14 +11,14 @@ import {
 import classes from "./Map.module.scss";
 import { MapContext } from "../context";
 import { WindowContext } from "./Windows";
+import { FullScreenLoading } from "../pages/FullScreenLoading";
 
 export const Map: React.FC = () => {
   const { setMap } = useContext(MapContext);
   const containerSize = useContext(WindowContext);
   const home = useHomeLocation();
 
-  // TODO: i18n or better UX
-  if (!home) return <>Loading…</>;
+  if (!home) return <FullScreenLoading />;
 
   return (
     <MapContainer

@@ -10,7 +10,8 @@ import {
   PropsWithChildren,
 } from "react";
 import { getUser, isLoggedIn, login, logout, OsmOwnUser } from "osm-api";
-import { LoginErrorPage, LoginPage, LoginWaitingForPopupPage } from "../pages";
+import { LoginPage } from "../pages/LoginPage";
+import { FullScreenLoading } from "../pages/FullScreenLoading";
 
 type IAuthContext = {
   user: OsmOwnUser;
@@ -69,21 +70,13 @@ export const AuthGateway: React.FC<PropsWithChildren> = ({ children }) => {
     [user, onLogout]
   );
 
-  if (error) {
+  if (!loggedIn) {
     return (
-      <LoginErrorPage
-        error={error}
-        onClickLogin={onClickLogin}
-        onClickLogout={onLogout}
-      />
+      <LoginPage loading={loading} error={error} onClickLogin={onClickLogin} />
     );
   }
 
-  if (loading) return <LoginWaitingForPopupPage />;
-
-  if (!loggedIn) return <LoginPage onClickLogin={onClickLogin} />;
-
-  if (!user) return <>Loading...</>;
+  if (!user) return <FullScreenLoading />;
 
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

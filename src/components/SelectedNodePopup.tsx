@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import { Popup } from "react-leaflet";
 import type { OsmNode } from "osm-api";
+import { Button, Code } from "@mantine/core";
 import type { RelationMember } from "../types";
 import { EditorContext } from "../context";
 import { t } from "../i18n";
 import { osmGetName } from "../util";
-
-// TODO: i18n
 
 export const SelectedNodePopup: React.FC<{
   node: OsmNode;
@@ -16,10 +15,10 @@ export const SelectedNodePopup: React.FC<{
 
   const name = osmGetName(node.tags);
 
-  function onClickChangeRole() {
-    // eslint-disable-next-line no-alert -- TODO: remove
+  const onClickChangeRole = () => {
+    // eslint-disable-next-line no-alert -- TODO: create mantine prompt function
     const newRole = prompt(
-      "Enter the new role (blank is allowed)",
+      t("SelectedNodePopup.temp-prompt-text"),
       membership.role
     );
 
@@ -37,9 +36,9 @@ export const SelectedNodePopup: React.FC<{
         return { ...thisMember, role: newRole };
       }),
     }));
-  }
+  };
 
-  function onClickRemove() {
+  const onClickRemove = () => {
     // if the node appears multiple times, this will remove all occurances
     setRouteMembers((c) => ({
       annotation: t("operation.deselect-node", { name }),
@@ -48,18 +47,21 @@ export const SelectedNodePopup: React.FC<{
           !(thisMember.type === "node" && thisMember.ref === node.id)
       ),
     }));
-  }
+  };
 
   return (
     <Popup>
-      “{name}” as “{membership.role}”
+      {t("SelectedNodePopup.label", {
+        name: <Code key="name">{name}</Code>,
+        role: <Code key="role">{membership.role}</Code>,
+      })}
       <br />
-      <button type="button" onClick={onClickChangeRole}>
-        Change Role
-      </button>
-      <button type="button" onClick={onClickRemove}>
-        Remove
-      </button>
+      <Button size="xs" m={2} onClick={onClickChangeRole}>
+        {t("SelectedNodePopup.btn-change-role")}
+      </Button>
+      <Button size="xs" color="red" m={2} onClick={onClickRemove}>
+        {t("SelectedNodePopup.btn-remove-node")}
+      </Button>
     </Popup>
   );
 };

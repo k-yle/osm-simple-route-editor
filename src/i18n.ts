@@ -18,6 +18,8 @@ export function getDefaultLanguage(): SupportedLanguage {
 
 export const locale = getDefaultLanguage();
 
+document.querySelector("html")!.setAttribute("lang", locale);
+
 const cache = createIntlCache();
 let intl: IntlShape;
 
@@ -27,5 +29,6 @@ export const i18nReady = (async () => {
   intl = createIntl({ locale, messages }, cache);
 })();
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- literally anything is allowed
 export const t = (id: string, values?: Record<string, any>) =>
   intl.formatMessage({ id }, values);
