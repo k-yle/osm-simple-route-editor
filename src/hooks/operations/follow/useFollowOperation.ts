@@ -17,7 +17,9 @@ export const useFollowOperation = () => {
     const alreadySelectedSet = new Set(alreadySelected);
 
     // most recently selected roads
-    const [mostRecentId, secondMostRecentId] = alreadySelected.slice(-2);
+    const [mostRecentId, secondMostRecentId] = alreadySelected
+      .slice(-2)
+      .reverse();
 
     const mostRecent = roads.find((w) => w.id === mostRecentId);
     const secondMostRecent = roads.find((w) => w.id === secondMostRecentId);

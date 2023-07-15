@@ -2,9 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/img/logo.png" />
+    <meta name="author" content="Kyle Hensel" />
+    <meta
+      name="description"
+      content="An editor for OpenStreetMap route relations"
+    />
+    <link rel="icon" href="https://kyle.kiwi/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OSM Simple Route Editor</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'self' https://*.openstreetmap.org https://osmlab.github.io *.kyle.kiwi; style-src 'self' 'unsafe-inline'; img-src data: *; script-src-elem 'self';"
+    />
   </head>
   <body>
     <div id="root"></div>
