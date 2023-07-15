@@ -12,12 +12,12 @@ import {
  */
 export type CriteriaFunction = (
   sourceRoad: WayWithGeom,
-  candidateRoad: WayWithGeom
+  candidateRoad: WayWithGeom,
 ) => number;
 
 export const rankAdjoiningRoad: CriteriaFunction = (
   sourceRoad,
-  candidateRoad
+  candidateRoad,
 ) => {
   const criteria: CriteriaFunction[] = [
     // the order determines their importance. The first criteria is

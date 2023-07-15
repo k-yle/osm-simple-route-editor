@@ -18,7 +18,7 @@ describe("matchesFeatureQuery", () => {
     expect(matchesFeatureQuery(roadsQuery, { highway: "service" })).toBe(false);
     expect(matchesFeatureQuery(roadsQuery, { maxspeed: "10" })).toBe(false);
     expect(
-      matchesFeatureQuery(roadsQuery, { highway: "service", maxspeed: "10" })
+      matchesFeatureQuery(roadsQuery, { highway: "service", maxspeed: "10" }),
     ).toBe(true);
     expect(matchesFeatureQuery(roadsQuery, { otherTag: "abc" })).toBe(false);
     expect(matchesFeatureQuery(roadsQuery, {})).toBe(false);
@@ -32,31 +32,31 @@ describe("matchesFeatureQuery", () => {
     };
     expect(matchesFeatureQuery(serviceRoads, {})).toBe(false);
     expect(matchesFeatureQuery(serviceRoads, { highway: "service" })).toBe(
-      false
+      false,
     );
     expect(matchesFeatureQuery(serviceRoads, { service: "driveway" })).toBe(
-      false
+      false,
     );
     expect(matchesFeatureQuery(serviceRoads, { maxspeed: "110" })).toBe(false);
     expect(
       matchesFeatureQuery(serviceRoads, {
         highway: "service",
         service: "driveway",
-      })
+      }),
     ).toBe(false);
     expect(
       matchesFeatureQuery(serviceRoads, {
         highway: "service",
         service: "driveway",
         maxspeed: "110",
-      })
+      }),
     ).toBe(true);
     expect(
       matchesFeatureQuery(serviceRoads, {
         highway: "service",
         service: "parking_iel",
         maxspeed: "110",
-      })
+      }),
     ).toBe(false);
     expect(matchesFeatureQuery(serviceRoads, {})).toBe(false);
   });
@@ -74,13 +74,13 @@ describe("matchesFeatureQuery", () => {
       matchTags: [{ highway: ["motorway", "motorway_link"] }],
     };
     expect(matchesFeatureQuery(mwayAndOffRamps, { highway: "motorway" })).toBe(
-      true
+      true,
     );
     expect(
-      matchesFeatureQuery(mwayAndOffRamps, { highway: "motorway_link" })
+      matchesFeatureQuery(mwayAndOffRamps, { highway: "motorway_link" }),
     ).toBe(true);
     expect(matchesFeatureQuery(mwayAndOffRamps, { highway: "other" })).toBe(
-      false
+      false,
     );
     expect(matchesFeatureQuery(mwayAndOffRamps, {})).toBe(false);
   });
@@ -91,13 +91,13 @@ describe("matchesFeatureQuery", () => {
       exclude: [{ highway: "motorway" }],
     };
     expect(
-      matchesFeatureQuery(allRoadsExceptMWay, { highway: "whatever" })
+      matchesFeatureQuery(allRoadsExceptMWay, { highway: "whatever" }),
     ).toBe(true);
     expect(
-      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway_link" })
+      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway_link" }),
     ).toBe(true);
     expect(
-      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway" })
+      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway" }),
     ).toBe(false);
   });
 
@@ -110,29 +110,29 @@ describe("matchesFeatureQuery", () => {
       ],
     };
     expect(
-      matchesFeatureQuery(allRoadsExceptMWay, { highway: "whatever" })
+      matchesFeatureQuery(allRoadsExceptMWay, { highway: "whatever" }),
     ).toBe(true);
     expect(
       matchesFeatureQuery(allRoadsExceptMWay, {
         highway: "whatever",
         expresesway: "no",
-      })
+      }),
     ).toBe(true);
 
     expect(
-      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway_link" })
+      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway_link" }),
     ).toBe(false);
     expect(
-      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway" })
+      matchesFeatureQuery(allRoadsExceptMWay, { highway: "motorway" }),
     ).toBe(false);
     expect(matchesFeatureQuery(allRoadsExceptMWay, { expressway: "yes" })).toBe(
-      false
+      false,
     );
     expect(
       matchesFeatureQuery(allRoadsExceptMWay, {
         highway: "service",
         expressway: "yes",
-      })
+      }),
     ).toBe(false);
   });
 
@@ -146,10 +146,10 @@ describe("matchesFeatureQuery", () => {
     expect(matchesFeatureQuery(noRoadNorRail, { building: "yes" })).toBe(true);
     expect(matchesFeatureQuery(noRoadNorRail, { highway: "bob" })).toBe(false);
     expect(matchesFeatureQuery(noRoadNorRail, { railway: "track" })).toBe(
-      false
+      false,
     );
     expect(
-      matchesFeatureQuery(noRoadNorRail, { highway: "bob", railway: "track" })
+      matchesFeatureQuery(noRoadNorRail, { highway: "bob", railway: "track" }),
     ).toBe(false);
   });
 
@@ -172,10 +172,10 @@ describe("matchesFeatureQuery", () => {
         exclude: [],
       };
       expect(matchesFeatureQuery(emptyExclude, { highway: "service" })).toBe(
-        true
+        true,
       );
       expect(matchesFeatureQuery(emptyExclude, { highway: "whatever" })).toBe(
-        false
+        false,
       );
       expect(matchesFeatureQuery(emptyExclude, {})).toBe(false);
     });
@@ -186,10 +186,10 @@ describe("matchesFeatureQuery", () => {
         exclude: [{}],
       };
       expect(matchesFeatureQuery(emptyExclude, { highway: "service" })).toBe(
-        false
+        false,
       );
       expect(matchesFeatureQuery(emptyExclude, { highway: "whatever" })).toBe(
-        false
+        false,
       );
       expect(matchesFeatureQuery(emptyExclude, {})).toBe(false);
     });
@@ -197,7 +197,7 @@ describe("matchesFeatureQuery", () => {
     it("selects nothing if matchTags and exclude are both an empty object", () => {
       const bothEmpty: FeatureQuery = { matchTags: [{}], exclude: [{}] };
       expect(matchesFeatureQuery(bothEmpty, { highway: "whatever" })).toBe(
-        false
+        false,
       );
       expect(matchesFeatureQuery(bothEmpty, {})).toBe(false);
     });
@@ -205,7 +205,7 @@ describe("matchesFeatureQuery", () => {
     it("selects nothing if matchTags and exclude are both a empty arrays", () => {
       const bothEmpty: FeatureQuery = { matchTags: [], exclude: [] };
       expect(matchesFeatureQuery(bothEmpty, { highway: "whatever" })).toBe(
-        false
+        false,
       );
       expect(matchesFeatureQuery(bothEmpty, {})).toBe(false);
     });

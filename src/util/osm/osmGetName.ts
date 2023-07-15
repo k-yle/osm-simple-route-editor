@@ -6,7 +6,7 @@ import { Tags } from "../../types";
  * finds the best name for an object.
  */
 export function osmGetName(
-  tags: Tags | undefined
+  tags: Tags | undefined,
 ): string & { isNoName?: boolean } {
   if (!tags) return t("osmGetName.no-name");
 

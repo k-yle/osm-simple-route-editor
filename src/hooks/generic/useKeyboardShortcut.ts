@@ -11,7 +11,7 @@ export const realCtrlKey: Modifier = navigator.platform.startsWith("Mac")
 export const useKeyboardShortcut = (
   key: string,
   callback: () => void,
-  modifier?: Modifier
+  modifier?: Modifier,
 ) => {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

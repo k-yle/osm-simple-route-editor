@@ -9,11 +9,13 @@ import { matchesFeatureQuery } from "./matchesFeatureQuery";
  */
 export function createRoadsFromRawOsmData(
   transportMode: TransportMode,
-  rawOsmData: OsmCache
+  rawOsmData: OsmCache,
 ): WayWithGeom[] {
   const featureQueries = NETWORK_HEIRARCHY[transportMode].features;
   const roads = Object.values(rawOsmData.way).filter((f) =>
-    featureQueries.some((query) => f.tags && matchesFeatureQuery(query, f.tags))
+    featureQueries.some(
+      (query) => f.tags && matchesFeatureQuery(query, f.tags),
+    ),
   );
 
   const withGeom = roads

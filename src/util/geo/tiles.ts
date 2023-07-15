@@ -9,7 +9,7 @@ export function coordToTile([lat, lng]: Vec2, z: number): Vec3 {
   const x = floor(((lng + 180) / 360) * 2 ** z);
   const y = floor(
     ((1 - log(tan((lat * π) / 180) + 1 / cos((lat * π) / 180)) / π) / 2) *
-      2 ** z
+      2 ** z,
   );
   return [x, y, z];
 }

@@ -67,7 +67,7 @@ export const AuthGateway: React.FC<PropsWithChildren> = ({ children }) => {
 
   const context = useMemo(
     () => ({ user: user!, logout: onLogout }),
-    [user, onLogout]
+    [user, onLogout],
   );
 
   if (!loggedIn) {

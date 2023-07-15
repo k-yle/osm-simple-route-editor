@@ -19,7 +19,7 @@ export const SelectedNodePopup: React.FC<{
     // eslint-disable-next-line no-alert -- TODO: create mantine prompt function
     const newRole = prompt(
       t("SelectedNodePopup.temp-prompt-text"),
-      membership.role
+      membership.role,
     );
 
     // user cancelled
@@ -44,7 +44,7 @@ export const SelectedNodePopup: React.FC<{
       annotation: t("operation.deselect-node", { name }),
       value: c.filter(
         (thisMember) =>
-          !(thisMember.type === "node" && thisMember.ref === node.id)
+          !(thisMember.type === "node" && thisMember.ref === node.id),
       ),
     }));
   };

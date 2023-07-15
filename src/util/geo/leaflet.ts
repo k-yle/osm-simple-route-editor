@@ -19,7 +19,7 @@ export function attributionToHtml(a: ELI["attribution"]) {
 
   return a.url
     ? `<a href="${encodeURI(
-        a.url
+        a.url,
       )}" target="_blank" rel="noopener noreferrer">${escapeText(a.text)}</a>`
     : a.text;
 }

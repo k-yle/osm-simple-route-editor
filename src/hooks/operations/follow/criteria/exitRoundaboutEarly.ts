@@ -7,7 +7,7 @@ import type { CriteriaFunction } from "../rankAdjoiningRoad";
  */
 export const exitRoundaboutEarly: CriteriaFunction = (
   sourceRoad,
-  candidateRoad
+  candidateRoad,
 ) => {
   const sourceIsRoundabout = sourceRoad.tags?.junction === "roundabout";
   const candidateIsRoundabout = candidateRoad.tags?.junction === "roundabout";

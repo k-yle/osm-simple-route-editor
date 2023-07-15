@@ -15,8 +15,8 @@ describe("sameRoadHierarchy", () => {
     expect(
       sameRoadHierarchy(
         partial<WayWithGeom>({ tags: { highway: from } }),
-        partial<WayWithGeom>({ tags: { highway: to } })
-      )
+        partial<WayWithGeom>({ tags: { highway: to } }),
+      ),
     ).toBe(rank);
   });
 });

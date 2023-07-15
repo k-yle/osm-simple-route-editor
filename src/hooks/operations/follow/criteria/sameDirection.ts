@@ -12,7 +12,7 @@ const invertDirection: Record<Direction, Direction> = {
 export const sameDirection: CriteriaFunction = (sourceRoad, candidateRoad) => {
   /** if true, then we're following this road forwards */
   const sharedNodeIsLastNodeOfSource = candidateRoad.nodes.includes(
-    sourceRoad.nodes.at(-1)!
+    sourceRoad.nodes.at(-1)!,
   );
   const sharedNode = sharedNodeIsLastNodeOfSource
     ? sourceRoad.nodes.at(-1)!

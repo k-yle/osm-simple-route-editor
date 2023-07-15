@@ -46,7 +46,7 @@ export const useOnSelectWay = () => {
         }
       }
     },
-    [setRouteMembers, getCurrentImagery, changesetTags, setChangesetTags]
+    [setRouteMembers, getCurrentImagery, changesetTags, setChangesetTags],
   );
 
   return onSelectWay;

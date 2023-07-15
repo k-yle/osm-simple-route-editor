@@ -63,7 +63,7 @@ export const useFollowOperation = () => {
       (w) =>
         w.id !== mostRecentId && // ignore the current road
         !alreadySelectedSet.has(w.id) && // ignore roads that are already selected
-        (w.nodes[0] === leadingNodeId || w.nodes.at(-1) === leadingNodeId)
+        (w.nodes[0] === leadingNodeId || w.nodes.at(-1) === leadingNodeId),
     );
 
     // now we need to figure out which of the adjoiningRoads we should continue to.

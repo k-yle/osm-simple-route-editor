@@ -10,7 +10,7 @@ export const KeyboardShortcutsModal: React.FC = () => {
       { name: t("command.follow"), keys: ["F"] },
       { name: t("command.toggle-imagery"), keys: ["B"] },
     ],
-    []
+    [],
   );
 
   return (

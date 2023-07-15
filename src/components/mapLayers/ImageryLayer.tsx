@@ -26,7 +26,7 @@ export const ImageryLayer: React.FC = () => {
 
   const toggleImagery = useCallback(() => {
     const mostRecent = allLayers.current.find(
-      (l) => l.options.id === mostRecentLayers.current[1]
+      (l) => l.options.id === mostRecentLayers.current[1],
     );
     if (!mostRecent) return;
 

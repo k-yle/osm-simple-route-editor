@@ -15,8 +15,8 @@ describe("sameRoadName", () => {
     expect(
       sameRoadName(
         partial<WayWithGeom>({ tags: { name: from } }),
-        partial<WayWithGeom>({ tags: { name: to } })
-      )
+        partial<WayWithGeom>({ tags: { name: to } }),
+      ),
     ).toBe(rank);
   });
 });

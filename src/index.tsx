@@ -23,6 +23,6 @@ i18nReady.then(() => {
           </EditorWrapper>
         </AuthGateway>
       </ThemeWrapper>
-    </StrictMode>
+    </StrictMode>,
   );
 });

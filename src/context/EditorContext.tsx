@@ -55,7 +55,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
     RelationMember[]
   >([]);
   const [changesetTags, setChangesetTags] = useState<Tags>(
-    DEFAULT_CHANGESET_TAGS
+    DEFAULT_CHANGESET_TAGS,
   );
 
   usePreventTabClosure(routeMemberHistory.anyChanges);
@@ -77,7 +77,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
 
       const features = await getFeature("relation", newRouteId, true);
       const newRoute = features.find(
-        (r): r is OsmRelation => r.type === "relation" && r.id === newRouteId
+        (r): r is OsmRelation => r.type === "relation" && r.id === newRouteId,
       )!;
 
       // non-reactive updates first
@@ -89,7 +89,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
         value: newRoute.members,
       });
     },
-    [setRouteMembers]
+    [setRouteMembers],
   );
 
   const context = useMemo<IEditorContext>(
@@ -110,7 +110,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
       changesetTags,
       setChangesetTags,
       resetEditor,
-    ]
+    ],
   );
 
   if (!route) {

@@ -50,8 +50,8 @@ export const useOsmData = (mapExtent: BBox, zoom: number) => {
   useEffect(() => {
     setVisibleFeatures(
       getConstructedRoads().filter((road) =>
-        road.points.some((point) => isWithinBBox(point, mapExtent))
-      )
+        road.points.some((point) => isWithinBBox(point, mapExtent)),
+      ),
     );
     // onDataFetched is deliberately a redundant dependency
   }, [mapExtent, onDataFetched]);

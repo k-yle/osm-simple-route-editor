@@ -19,7 +19,7 @@ describe("rankAdjoiningRoad", () => {
       const source = { nodes: [1, 2], tags: sourceTags } as WayWithGeom;
       const candidate = { nodes: [2, 3], tags: candidateTags } as WayWithGeom;
       expect(rankAdjoiningRoad(source, candidate)).toBe(rank);
-    }
+    },
   );
 
   // TODO: more tests

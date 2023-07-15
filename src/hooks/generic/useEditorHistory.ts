@@ -139,7 +139,7 @@ const reducer = <T>(previousState: State<T>, action: Action<T>): State<T> => {
 export const useEditorHistory = <T>(
   initialState: T,
   transformer?: (value: T) => T,
-  beganWithChanges?: boolean
+  beganWithChanges?: boolean,
 ): [value: T, setValue: SetEditorState<T>, history: EditorHistory] => {
   const [state, dispatch] = useReducer(reducer, {
     prev: undefined,
@@ -153,12 +153,12 @@ export const useEditorHistory = <T>(
 
   const undo = useCallback(
     (permanent?: boolean) => dispatch({ type: ActionType.Undo, permanent }),
-    []
+    [],
   );
   const redo = useCallback(() => dispatch({ type: ActionType.Redo }), []);
   const clearHistory = useCallback(
     () => dispatch({ type: ActionType.ClearHistory }),
-    []
+    [],
   );
 
   useKeyboardShortcut("z", undo, realCtrlKey);
@@ -171,12 +171,12 @@ export const useEditorHistory = <T>(
         newValueOrFunc: newValueOrFunction,
         transformer,
       }),
-    [transformer]
+    [transformer],
   );
 
   const history = useMemo<EditorHistory>(
     () => ({ undo, redo, canUndo, canRedo, anyChanges, clearHistory }),
-    [undo, redo, canUndo, canRedo, anyChanges, clearHistory]
+    [undo, redo, canUndo, canRedo, anyChanges, clearHistory],
   );
 
   return [state.current.value, set, history];

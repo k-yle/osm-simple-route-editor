@@ -28,7 +28,7 @@ export const Windows: React.FC<{
         setTempWidth(stableWidth + delta);
       }
     },
-    [isDragging, stableWidth]
+    [isDragging, stableWidth],
   );
 
   const onDragEnd = useCallback<MouseEventHandler>(() => {

@@ -18,7 +18,7 @@ export const RelationMemberList: React.FC = () => {
 
   const originalMembers = useMemo(
     () => new Set(getWayIdsFromMembers(route.members)),
-    [route]
+    [route],
   );
 
   // this only considers way members
