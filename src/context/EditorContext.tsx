@@ -6,6 +6,7 @@ import {
   PropsWithChildren,
 } from "react";
 import { OsmRelation, getFeature } from "osm-api";
+import { unstable_batchedUpdates as batch } from "react-dom";
 import { RelationMember, Tags } from "../types";
 import { SelectRelationPage } from "../pages";
 import { version } from "../../package.json";
@@ -83,10 +84,12 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
       // non-reactive updates first
       storeNewFeatures(features);
 
-      setRoute(newRoute);
-      setRouteMembers({
-        annotation: "",
-        value: newRoute.members,
+      batch(() => {
+        setRoute(newRoute);
+        setRouteMembers({
+          annotation: "",
+          value: newRoute.members,
+        });
       });
     },
     [setRouteMembers],

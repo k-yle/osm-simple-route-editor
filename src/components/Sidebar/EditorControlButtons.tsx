@@ -73,7 +73,7 @@ export const EditorControlButtons: React.FC = () => {
 
     const xmlBlob = new Blob([xmlString], { type: "application/xml" });
 
-    const fileName = `r${route.id}.osmChange`;
+    const fileName = `r${route.id}.osc`;
     downloadFile(fileName, xmlBlob);
   };
 

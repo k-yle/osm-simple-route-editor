@@ -11,6 +11,7 @@ import { osmCache } from "../../context/cache";
 import { osmGetName, getWayIdsFromMembers } from "../../util";
 import { InlineUndoButton } from "./InlineUndoButton";
 import { t } from "../../i18n";
+import { RelationSortStatus } from "./RelationSortStatus";
 
 export const RelationMemberList: React.FC = () => {
   const { route, routeMembers } = useContext(EditorContext);
@@ -37,6 +38,7 @@ export const RelationMemberList: React.FC = () => {
       <Title order={3}>
         {t("RelationMemberList.member-list-header", { n: uniqMembers.length })}
       </Title>
+      <RelationSortStatus />
       <List
         mt={8}
         spacing="xs"

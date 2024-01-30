@@ -112,7 +112,7 @@ export const Navbar: React.FC = () => {
               >
                 <Group spacing={7}>
                   <Avatar
-                    src={user.img.href}
+                    src={user.img?.href}
                     alt={user.display_name}
                     radius="xl"
                     size={20}
