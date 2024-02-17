@@ -4,6 +4,7 @@ import { BBox, getMapData } from "osm-api";
 import { WayWithGeom } from "../types";
 import { bboxToTiles, isWithinBBox } from "../util";
 import { getConstructedRoads, storeNewFeatures } from "../context/cache";
+import { TransportMode } from "../constants";
 
 // We fetch data one tile at a time, which makes it easier
 // to track which tiles we've fetched. To reduce API requests,
@@ -16,7 +17,11 @@ export const MIN_ZOOM = 17;
 
 const alreadyQueried: Record<string, true> = {};
 
-export const useOsmData = (mapExtent: BBox, zoom: number) => {
+export const useOsmData = (
+  mapExtent: BBox,
+  zoom: number,
+  transportMode: TransportMode,
+) => {
   const mapExtentRef = useRef<BBox>(mapExtent);
 
   const [visibleFeatures, setVisibleFeatures] = useState<WayWithGeom[]>([]);
@@ -38,14 +43,21 @@ export const useOsmData = (mapExtent: BBox, zoom: number) => {
 
         // fetch async map data from OSM
         getMapData(tile.bbox)
-          .then(storeNewFeatures)
+          .then((newData) => storeNewFeatures(newData, transportMode))
           // reactively inform anyone interested that new data has arrived
           .then(() => setOnDataFetched((c) => c + 1))
 
           .catch(console.error);
       }
     }
-  }, [mapExtent, zoom]);
+  }, [mapExtent, zoom, transportMode]);
+
+  useEffect(() => {
+    // when the transportMode changes, we need to recompute the graph.
+    // so we pretend that new data was just fetched.
+    storeNewFeatures([], transportMode);
+    setOnDataFetched((c) => c + 1);
+  }, [transportMode]);
 
   useEffect(() => {
     setVisibleFeatures(

@@ -10,17 +10,20 @@ import { App } from "./App";
 import { i18nReady } from "./i18n";
 
 import "./style";
+import { SettingsWrapper } from "./context/SettingsContext";
 
 i18nReady.then(() => {
   createRoot(document.querySelector("#root")!).render(
     <StrictMode>
       <ThemeWrapper>
         <AuthGateway>
-          <EditorWrapper>
-            <MapWrapper>
-              <App />
-            </MapWrapper>
-          </EditorWrapper>
+          <SettingsWrapper>
+            <EditorWrapper>
+              <MapWrapper>
+                <App />
+              </MapWrapper>
+            </EditorWrapper>
+          </SettingsWrapper>
         </AuthGateway>
       </ThemeWrapper>
     </StrictMode>,

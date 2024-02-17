@@ -52,5 +52,8 @@
     "rules": {
       "consistent-return": 0
     }
+  },
+  "prettier": {
+    "trailingComma": "all"
   }
 }

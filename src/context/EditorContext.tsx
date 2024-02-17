@@ -4,6 +4,7 @@ import {
   useMemo,
   useCallback,
   PropsWithChildren,
+  useContext,
 } from "react";
 import { OsmRelation, getFeature } from "osm-api";
 import { unstable_batchedUpdates as batch } from "react-dom";
@@ -18,6 +19,7 @@ import {
   useEditorHistory,
   usePreventTabClosure,
 } from "../hooks/generic";
+import { SettingsContext } from "./SettingsContext";
 
 export const NEW_ROUTE: OsmRelation = {
   type: "relation",
@@ -59,6 +61,8 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
     DEFAULT_CHANGESET_TAGS,
   );
 
+  const { transportMode } = useContext(SettingsContext);
+
   usePreventTabClosure(routeMemberHistory.anyChanges);
 
   const resetEditor = useCallback(() => {
@@ -82,7 +86,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
       )!;
 
       // non-reactive updates first
-      storeNewFeatures(features);
+      storeNewFeatures(features, transportMode);
 
       batch(() => {
         setRoute(newRoute);
@@ -92,7 +96,7 @@ export const EditorWrapper: React.FC<PropsWithChildren> = ({ children }) => {
         });
       });
     },
-    [setRouteMembers],
+    [setRouteMembers, transportMode],
   );
 
   const context = useMemo<IEditorContext>(

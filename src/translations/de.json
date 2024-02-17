@@ -58,6 +58,9 @@
   "osmGetName.network-ref-from-to": "{network} {ref} (von {from} nach {to})",
   "osmGetName.network-ref-to": "{network} {ref} (nach {to})",
   "osmGetName.no-name": "Kein Name",
+  "transportMode.ferry": "Wasserstraßen",
+  "transportMode.road": "Straßen",
+  "transportMode.train": "Schienen",
   "useCreateOsmChange.changeset-comment.create": "Route erstellt",
   "useCreateOsmChange.changeset-comment.edit": "Route „{name}“ aktualisiert"
 }

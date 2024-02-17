@@ -1,3 +1,5 @@
+import { t } from "../i18n";
+
 /** the outer array is OR, within each object is AND, within each tag value is OR */
 export type TagQuery = {
   [key: string]: string | string[] | "*";
@@ -12,14 +14,14 @@ export type TransportMode = "ROAD" | "TRAIN" | "FERRY";
 
 export type Heirarchy = {
   [T in TransportMode]: {
-    name: string;
+    getName(): string;
     features: (FeatureQuery & { minZoom: number })[];
   };
 };
 
 export const NETWORK_HEIRARCHY: Heirarchy = {
   ROAD: {
-    name: "Road",
+    getName: () => t("transportMode.road"),
     features: [
       // motorways, state highways, and schnellstraßen are visible from afar
       {
@@ -37,7 +39,7 @@ export const NETWORK_HEIRARCHY: Heirarchy = {
     ],
   },
   TRAIN: {
-    name: "Rail",
+    getName: () => t("transportMode.train"),
     features: [
       // mainline tracks are visible from afar
       {
@@ -53,7 +55,7 @@ export const NETWORK_HEIRARCHY: Heirarchy = {
     ],
   },
   FERRY: {
-    name: "Ferry",
+    getName: () => t("transportMode.ferry"),
     features: [{ minZoom: 12, matchTags: [{ route: "ferry" }] }],
   },
 };

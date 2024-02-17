@@ -28,6 +28,7 @@ import { t } from "../i18n";
 import { ChangeLanguageInput } from "./ChangeLanguageInput";
 import { AboutModal } from "./AboutModal";
 import { KeyboardShortcutsModal } from "./KeyboardShortcutsModal";
+import { ChangeTransportMode } from "./ChangeTransportMode";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -148,6 +149,8 @@ export const Navbar: React.FC = () => {
               >
                 <ChangeLanguageInput />
               </Menu.Item>
+
+              <ChangeTransportMode />
 
               <Menu.Divider />
               <Menu.Label>{t("Navbar.section-about")}</Menu.Label>

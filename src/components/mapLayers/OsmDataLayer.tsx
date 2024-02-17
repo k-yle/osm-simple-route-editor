@@ -10,17 +10,19 @@ import {
 } from "../../hooks";
 import { tagsToClassName, toBBox } from "../../util";
 import { EditorContext } from "../../context";
+import { SettingsContext } from "../../context/SettingsContext";
 
 export const OsmDataLayer: React.FC = () => {
   const map = useMap();
   const { routeMembers } = useContext(EditorContext);
+  const { transportMode } = useContext(SettingsContext);
 
   const onSelectWay = useOnSelectWay();
 
   const [extent, setExtent] = useState<BBox>(toBBox(map.getBounds()));
   const zoom = Math.round(map.getZoom());
 
-  const visibleData = useOsmData(extent, zoom);
+  const visibleData = useOsmData(extent, zoom, transportMode);
 
   useMapEvents({
     // at some point we might need to debounce this...

@@ -58,6 +58,9 @@
   "osmGetName.network-ref-from-to": "{network} {ref} ({from} to {to})",
   "osmGetName.network-ref-to": "{network} {ref} (to {to})",
   "osmGetName.no-name": "No Name",
+  "transportMode.ferry": "Ferry",
+  "transportMode.road": "Road",
+  "transportMode.train": "Rail",
   "useCreateOsmChange.changeset-comment.create": "Create route relation",
   "useCreateOsmChange.changeset-comment.edit": "Update route relation “{name}”"
 }
