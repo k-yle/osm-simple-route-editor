@@ -3353,10 +3353,10 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-osm-api@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/osm-api/-/osm-api-2.1.0.tgz#1af26f2e5d501304f6ba1e4b9871ea03353a306f"
-  integrity sha512-qrId8MUIiOQ+kYOhW5o3HQg+ybCW/AFBVnlFiQutoLxgSpGED7xwA7rFbhPBxVtTuW0PE7BfM2bLfO6fXgLGYA==
+osm-api@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/osm-api/-/osm-api-2.1.1.tgz#19f6510e522958dac4904edf2979516795e5ac27"
+  integrity sha512-Nll8pkM5o8DPz1t/+99ViR4iycputtrjx2V/3lziKSoX9hBaybEvfZPN+bKcfSX2gWEY2dj42oiP8ZzX7JvH6A==
   dependencies:
     "@types/geojson" "^7946.0.13"
     fast-xml-parser "^4.3.3"
