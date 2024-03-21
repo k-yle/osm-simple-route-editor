@@ -32,7 +32,7 @@ export function getSharedNode(firstWay: OsmWay, secondWay: OsmWay) {
 export function getIsSorted(
   members: RelationMember[],
 ): true | number | undefined {
-  const wayMembers = members.filter((m) => m.type === "way");
+  const wayMembers = members.filter((m) => m.type === "way" && !m.role);
 
   if (wayMembers.length < 2) return true;
 

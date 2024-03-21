@@ -44,7 +44,12 @@ export const NETWORK_HEIRARCHY: Heirarchy = {
       // mainline tracks are visible from afar
       {
         minZoom: 12,
-        matchTags: [{ railway: "rail" }],
+        matchTags: [
+          { railway: "rail" },
+          { railway: "subway" },
+          { railway: "light_rail" },
+          { railway: "tram" },
+        ],
         exclude: [{ service: "*" }],
       },
       // crossovers/sidings etc. are only visible when zoomed in

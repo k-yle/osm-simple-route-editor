@@ -22,7 +22,10 @@ export const ImageryLayer: React.FC = () => {
     },
   });
 
-  const imageryList = useAvailableImagery(toBBox(map.getBounds()));
+  const imageryList = useAvailableImagery(toBBox(map.getBounds())).filter(
+    // this causes a crash in leaflet, unclear why
+    (c) => !c.url.includes("bbox"),
+  );
 
   const toggleImagery = useCallback(() => {
     const mostRecent = allLayers.current.find(
