@@ -60,7 +60,7 @@ export const SelectedNodePopup: React.FC<{
         {t("SelectedNodePopup.btn-change-role")}
       </Button>
       <Button size="xs" color="red" m={2} onClick={onClickRemove}>
-        {t("SelectedNodePopup.btn-remove-node")}
+        {t("command.remove")}
       </Button>
     </Popup>
   );

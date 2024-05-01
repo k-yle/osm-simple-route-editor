@@ -5,6 +5,8 @@ import {
   IconCircleMinus,
   IconCirclePlus,
 } from "@tabler/icons-react";
+import { OnDragEndResponder } from "@hello-pangea/dnd";
+import { notifications } from "@mantine/notifications";
 import { EditorContext } from "../../context";
 import { useOnSelectWay } from "../../hooks";
 import { osmCache } from "../../context/cache";
@@ -12,9 +14,11 @@ import { osmGetName, getWayIdsFromMembers } from "../../util";
 import { InlineUndoButton } from "./InlineUndoButton";
 import { t } from "../../i18n";
 import { RelationSortStatus } from "./RelationSortStatus";
+import { swapArrayItem } from "../../util/general/object";
+import { DragAndDrop } from "../DragAndDrop";
 
 export const RelationMemberList: React.FC = () => {
-  const { route, routeMembers } = useContext(EditorContext);
+  const { route, routeMembers, setRouteMembers } = useContext(EditorContext);
   const onSelectWay = useOnSelectWay();
 
   const originalMembers = useMemo(
@@ -32,6 +36,43 @@ export const RelationMemberList: React.FC = () => {
       uniqMembers: allWayIDs,
     };
   }, [routeMembers, originalMembers]);
+
+  const onDragEnd: OnDragEndResponder = ({ destination, source }) => {
+    // indexes in the filtered array (which contains only roads/rails)
+    const _fromIndex = source.index;
+    const _toIndex = destination?.index || 0;
+
+    // way IDs
+    const fromWayId = uniqMembers[_fromIndex];
+    const toWayId = uniqMembers[_toIndex];
+
+    const isDuplicate =
+      uniqMembers.indexOf(fromWayId) !== uniqMembers.lastIndexOf(fromWayId) ||
+      uniqMembers.indexOf(toWayId) !== uniqMembers.lastIndexOf(toWayId);
+
+    if (isDuplicate) {
+      notifications.show({
+        color: "red",
+        title: t("RelationMemberList.error-reorder-duplicate.title"),
+        message: t("RelationMemberList.error-reorder-duplicate.subtitle"),
+      });
+      return;
+    }
+
+    // indexes in the original array of every relation member
+    const fromIndex = routeMembers.findIndex(
+      (m) => m.type === "way" && !m.role && m.ref === fromWayId,
+    );
+    const toIndex = routeMembers.findIndex(
+      (m) => m.type === "way" && !m.role && m.ref === toWayId,
+    );
+
+    const updatedArray = swapArrayItem(routeMembers, fromIndex, toIndex);
+    setRouteMembers({
+      annotation: t("operation.reorder-ways"),
+      value: updatedArray,
+    });
+  };
 
   return (
     <Container m={2}>
@@ -51,38 +92,44 @@ export const RelationMemberList: React.FC = () => {
         }
         withPadding
       >
-        {uniqMembers.map((id) => {
-          const way = osmCache.way[id];
-          const isNew = !originalMembers.has(id);
+        <DragAndDrop
+          onDragEnd={onDragEnd}
+          data={uniqMembers.map((id, index) => {
+            const key = `${id}-${index}`;
+            const way = osmCache.way[id];
+            const isNew = !originalMembers.has(id);
 
-          const label = way
-            ? osmGetName(way.tags)
-            : t("Sidebar.unknown-relation-member");
+            const label = way
+              ? osmGetName(way.tags)
+              : t("Sidebar.unknown-relation-member");
 
-          if (isNew) {
-            return (
+            const jsx = (
               <List.Item
-                key={id}
                 icon={
-                  <ThemeIcon color="green" size={24} radius="xl">
-                    <IconCirclePlus size="1rem" />
-                  </ThemeIcon>
+                  isNew && (
+                    <ThemeIcon color="green" size={24} radius="xl">
+                      <IconCirclePlus size="1rem" />
+                    </ThemeIcon>
+                  )
                 }
               >
                 {label}
                 &nbsp;
-                <InlineUndoButton onClick={() => onSelectWay(way)} />
+                <InlineUndoButton
+                  icon={isNew ? "undo" : "delete"}
+                  onClick={() => onSelectWay(way)}
+                />
               </List.Item>
             );
-          }
-
-          return <List.Item key={id}>{label}</List.Item>;
-        })}
-        {removed.map((id) => {
+            return { jsx, key };
+          })}
+        />
+        {removed.map((id, index) => {
+          const key = `${id}-${index}`;
           const way = osmCache.way[id];
           return (
             <List.Item
-              key={id}
+              key={key}
               icon={
                 <ThemeIcon color="red" size={24} radius="xl">
                   <IconCircleMinus size="1rem" />
@@ -91,7 +138,7 @@ export const RelationMemberList: React.FC = () => {
             >
               {osmGetName(way?.tags)}
               &nbsp;
-              <InlineUndoButton onClick={() => onSelectWay(way)} />
+              <InlineUndoButton icon="undo" onClick={() => onSelectWay(way)} />
             </List.Item>
           );
         })}
