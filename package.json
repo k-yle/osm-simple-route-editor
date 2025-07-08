@@ -9,6 +9,7 @@
     "lint": "eslint src --ext js,jsx,ts,tsx --report-unused-disable-directives && tsc",
     "test": "vitest"
   },
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@formatjs/intl": "^2.9.0",
@@ -20,7 +21,7 @@
     "@tabler/icons-react": "^2.25.0",
     "clsx": "^1.2.1",
     "leaflet": "^1.9.4",
-    "osm-api": "^2.1.1",
+    "osm-api": "^3.0.0-beta",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
