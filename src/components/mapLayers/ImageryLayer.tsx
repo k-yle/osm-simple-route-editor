@@ -62,6 +62,7 @@ export const ImageryLayer: React.FC = () => {
             name={imagery.name}
             attribution={attributionToHtml(imagery.attribution)}
             url={convertTileUrl(imagery.url)}
+            referrerPolicy="strict-origin-when-cross-origin"
             ref={(l) => {
               if (l) allLayers.current[index] = l;
             }}
